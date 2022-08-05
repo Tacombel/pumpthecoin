@@ -2,9 +2,9 @@ v 0.2
 
 Copy LICENSE, pumpthecoin.py and requirements.txt in you system. Ignore all other files.
 
-First, create and launch the .venv, install the dependencies.
+Create and launch the .venv. Install dependencies.
 
-then python pumpthecoin.py x
+Then python pumpthecoin.py x
 
 where x is the target coin price, in dollars.
 
