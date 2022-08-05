@@ -1,4 +1,4 @@
-v 0.1
+v 0.2
 
 First, create and launch the .venv, install the dependencies.
 

@@ -29,4 +29,5 @@ for e in data:
     if float(e['Price']) < target:
         neccesary_amount += float(e['Amount']) * float(e['Price'])
         units += float(e['Amount'])
-print(f'I need {neccesary_amount:.2f} btc or, in dollars, ${neccesary_amount * btc:.0f} plus commissions, at an average price of ${neccesary_amount * btc / units:.2f}')
+print(f'I need {neccesary_amount:.2f} btc or, in dollars, ${neccesary_amount * btc:.0f} plus commissions')
+print(f'I will end having {units:.2f} coins at an average price of ${neccesary_amount * btc / units:.2f}')
