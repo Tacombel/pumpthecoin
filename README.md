@@ -1,5 +1,7 @@
 v 0.2
 
+Copy pumpthecoin.py and requeriments.txt in you system. Ignore all other files.
+
 First, create and launch the .venv, install the dependencies.
 
 then python pumpthecoin.py x
