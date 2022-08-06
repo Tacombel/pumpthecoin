@@ -1,0 +1,1 @@
+docker build -t pumpthecoin:v0.5 .
