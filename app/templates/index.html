@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <title>Pump the Coin!!! v0.5</title>
+    <title>Pump the Coin!!! v0.6</title>
     <div class="container-fluid">
         {%if data %}
         <p>Bitcoin is now at ${{data[0]}}</p>
@@ -16,7 +16,7 @@
         <p>I will end having {{"%.0f"|format(data[3])}} coins at an average price of {{"$%.2f"|format(data[2]*data[0]/data[3])}}</p>
         {%else%}
         <p>To use simply modify the url to pumpthecoin.tacombel.eu/api/xx where xx is the target price in dollars</p>
-        <p>Example http://pumpthecoin.tacombel.eu/api/7.3</p>
+        <p>Example <a href="https://pumpthecoin.tacombel.eu/api/7.3">https://pumpthecoin.tacombel.eu/api/7.3</a></p>
         {% endif %}
     </div>
     <!-- Footer -->
