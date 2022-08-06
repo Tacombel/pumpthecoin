@@ -1,4 +1,4 @@
-from ensurepip import bootstrap
+# from ensurepip import bootstrap
 from flask import Flask
 from config import Config
 
