@@ -1,1 +1,1 @@
-docker build -t pumpthecoin:v0.5 .
+docker build -t pumpthecoin:v0.6 .
