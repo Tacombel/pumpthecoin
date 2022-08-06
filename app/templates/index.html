@@ -7,10 +7,12 @@
 </head>
 
 <body>
-    <title>Pump the Coin!!! v0.6</title>
+    <title>Pump the Coin!!! v0.6.4</title>
     <div class="container-fluid">
         {%if data %}
         <p>Bitcoin is now at ${{data[0]}}</p>
+        <p>If I want to pump scp to {{"$%.2f"|format(target_price)}} then:</p>
+        <p></p>
         <p>I will have to buy all sell orders up to {{"%.9f"|format(data[1])}} btc</p>
         <p>I need {{"%.2f"|format(data[2])}} btc or, in dollars, {{"$%.2f"|format(data[2]*data[0])}} plus commmissions</p>
         <p>I will end having {{"%.0f"|format(data[3])}} coins at an average price of {{"$%.2f"|format(data[2]*data[0]/data[3])}}</p>

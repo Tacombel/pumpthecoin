@@ -10,6 +10,7 @@ def index():
 
 @app.route('/api/<target_price>', methods=['GET'])
 def response(target_price):
-        btc, target, neccesary_amount, units = pumpthecoin.data(float(target_price))
+        target_price = float(target_price)
+        btc, target, neccesary_amount, units = pumpthecoin.data(target_price)
         data = [btc, target, neccesary_amount, units]
-        return render_template('index.html', data=data)
+        return render_template('index.html', data=data, target_price=target_price)
