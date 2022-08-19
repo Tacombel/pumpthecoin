@@ -27,12 +27,12 @@ def global_data():
     data = requests.get('https://consensus.scpri.me/status')
     total_coins = data.json()['totalcoins']
     #data from southxchange
-    purgue_data_factor = 99.9
     data = requests.get('https://www.southxchange.com/api/book/SCP/BTC')
     sellorders = data.json()['SellOrders']
     buyorders = data.json()['BuyOrders']
     units_in_sellorders_total = 0
     #sell orders
+    purgue_data_factor = 99.9
     for e in sellorders:
         units_in_sellorders_total += float(e['Amount'])
     units_to_consider = units_in_sellorders_total * purgue_data_factor / 100
