@@ -50,8 +50,9 @@ def global_data():
     for e in buyorders:
         units_in_buyorders += float(e['Amount'])
         btc_in_buyorders += float(e['Amount']) * float(e['Price'])
+    response = {'units_in_sell_orders': units_in_sellorders, 'btc_in_sellorders': btc_in_sellorders, 'units_in_buyorders': units_in_buyorders, 'btc_in_buyorders': btc_in_buyorders, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins}
     
-    return [units_in_sellorders, btc_in_sellorders, units_in_buyorders, btc_in_buyorders, units_in_sellorders_total, total_coins]
+    return response
 
 if __name__ == "__main__":
     for index, e in enumerate(sys.argv):
@@ -62,13 +63,13 @@ if __name__ == "__main__":
             btc = btc_price()
             print(f'Data from Southxchange API for the pair spc/BTC only.')
             print()
-            print(f'There are a total of {data[4]:.2f} coins in sell orders. This is {data[4] / data[5] * 100:.2f}% of the current coin in circulation.')
-            print(f'We will only consider {data[0] / data[4] * 100:.2f}% of the coins to minimize distortions. That leaves {data[0]:.2f} coins in sell orders.')
-            print(f'The total asking price is {data[1]:.2f} btc and the average is ${data[1] / data[0] * btc:.2f}/spc')
+            print(f'There are a total of {data["units_in_sellorders_total"]:.2f} coins in sell orders. This is {data["units_in_sellorders_total"] / data["total_coins"] * 100:.2f}% of the current coin in circulation.')
+            print(f'We will only consider {data["units_in_sell_orders"] / data["units_in_sellorders_total"] * 100:.2f}% of the coins to minimize distortions. That leaves {data["units_in_sell_orders"]:.2f} coins in sell orders.')
+            print(f'The total asking price is {data["btc_in_sellorders"]:.2f} btc and the average is ${data["btc_in_sellorders"] / data["units_in_sell_orders"] * btc:.2f}/spc')
             print()
-            print(f'There are {data[2]:.2f} coins in buy orders. This is {data[2] / data[5] * 100:.2f}% of the current coin in circulation.')
-            print(f'The total asking price is {data[3]:.2f} btc')
-            print(f'The average asking price is ${data[3] / data[2] * btc:.2f}')
+            print(f'There are {data["units_in_buyorders"]:.2f} coins in buy orders. This is {data["units_in_buyorders"] / data["total_coins"] * 100:.2f}% of the current coin in circulation.')
+            print(f'The total asking price is {data["btc_in_buyorders"]:.2f} btc')
+            print(f'The average asking price is ${data["btc_in_buyorders"] / data["units_in_buyorders"] * btc:.2f}')
         else:
             target_price = float(e)
             btc, target, neccesary_amount, units = data(target_price)
