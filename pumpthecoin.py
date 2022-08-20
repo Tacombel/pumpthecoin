@@ -27,7 +27,7 @@ def data(target_price):
         if float(e['Price']) < target:
             neccesary_amount += float(e['Amount']) * float(e['Price'])
             units += float(e['Amount'])
-    return btc, target, neccesary_amount, units
+    return btc_price(), target, neccesary_amount, units
 
 def global_data():
     # total coins in circulation
