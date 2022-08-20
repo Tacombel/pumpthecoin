@@ -1,3 +1,4 @@
+from importlib.util import find_spec
 from logging import PlaceHolder
 import requests
 import json
@@ -7,8 +8,14 @@ import sys
 def btc_price():
     btc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
     btc = btc.json()
-    btc = btc['bitcoin']['usd']
+    btc = float(btc['bitcoin']['usd'])
     return btc
+
+def spc_price():
+    spc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=siaprime-coin&vs_currencies=btc%2Cusd')
+    spc = spc.json()
+    spc = spc['siaprime-coin']['usd']
+    return spc
 
 def data(target_price):
     target = target_price / btc_price()
@@ -32,25 +39,26 @@ def global_data():
     buyorders = data.json()['BuyOrders']
     units_in_sellorders_total = 0
     #sell orders
-    purgue_data_factor = 99.9
+    discard_factor = 10
     for e in sellorders:
         units_in_sellorders_total += float(e['Amount'])
-    units_to_consider = units_in_sellorders_total * purgue_data_factor / 100
     units_in_sellorders = 0
     btc_in_sellorders = 0
+    first_order = True
     for e in sellorders:
-        units_in_sellorders += float(e['Amount'])
-        if units_in_sellorders > units_to_consider:
-            units_in_sellorders -= float(e['Amount'])
+        if not first_order and (float(e['Price'] > (btc_in_sellorders / units_in_sellorders * discard_factor))):
             break
+        units_in_sellorders += float(e['Amount'])
         btc_in_sellorders += float(e['Amount']) * float(e['Price'])
+        first_order = False
+        last_price_considered = float(e['Price'])
     #buy orders
     units_in_buyorders = 0
     btc_in_buyorders = 0
     for e in buyorders:
         units_in_buyorders += float(e['Amount'])
         btc_in_buyorders += float(e['Amount']) * float(e['Price'])
-    response = {'units_in_sell_orders': units_in_sellorders, 'btc_in_sellorders': btc_in_sellorders, 'units_in_buyorders': units_in_buyorders, 'btc_in_buyorders': btc_in_buyorders, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins}
+    response = {'units_in_sell_orders': units_in_sellorders, 'btc_in_sellorders': btc_in_sellorders, 'units_in_buyorders': units_in_buyorders, 'btc_in_buyorders': btc_in_buyorders, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins, 'last_price_considered': last_price_considered, 'discard_factor': discard_factor, 'price_spc_usd': spc_price()}
     
     return response
 
@@ -61,14 +69,18 @@ if __name__ == "__main__":
         if e == 'e':
             data = global_data()
             btc = btc_price()
-            print(f'Data from Southxchange API for the pair spc/BTC only.')
+            print(f'Data from Southxchange API, for the pair spc/BTC only.')
             print()
-            print(f'There are a total of {data["units_in_sellorders_total"]:.2f} coins in sell orders. This is {data["units_in_sellorders_total"] / data["total_coins"] * 100:.2f}% of the current coin in circulation.')
-            print(f'We will only consider {data["units_in_sell_orders"] / data["units_in_sellorders_total"] * 100:.2f}% of the coins to minimize distortions. That leaves {data["units_in_sell_orders"]:.2f} coins in sell orders.')
-            print(f'The total asking price is {data["btc_in_sellorders"]:.2f} btc and the average is ${data["btc_in_sellorders"] / data["units_in_sell_orders"] * btc:.2f}/spc')
+            print(f'SELL ORDERS')
+            print(f'There are a total of {data["units_in_sellorders_total"]:.2f} coins (${data["units_in_sellorders_total"] * data["price_spc_usd"]:.2f}) in sell orders. This is {data["units_in_sellorders_total"] / data["total_coins"] * 100:.2f}% of the current coin in circulation.')
+            print(f'To avoid distortion from orders with prices well above the rest, we will discard all remaining orders if the price of the order being considered is {data["discard_factor"]} times above the current average.')
+            print(f'The price at wich we stopped considering orders is {data["last_price_considered"]}btc (${data["last_price_considered"] * btc:.2f}).')
+            print(f'We will consider {data["units_in_sell_orders"] / data["units_in_sellorders_total"] * 100:.2f}% of the coins in the exchange. That is {data["units_in_sell_orders"]:.2f} coins in sell orders.')
+            print(f'The total asking price is {data["btc_in_sellorders"]:.2f} btc (${data["btc_in_sellorders"] * btc:.2f}) and the average is ${data["btc_in_sellorders"] / data["units_in_sell_orders"] * btc:.2f}/spc')
             print()
+            print('BUY ORDERS')
             print(f'There are {data["units_in_buyorders"]:.2f} coins in buy orders. This is {data["units_in_buyorders"] / data["total_coins"] * 100:.2f}% of the current coin in circulation.')
-            print(f'The total asking price is {data["btc_in_buyorders"]:.2f} btc')
+            print(f'The total asking price is {data["btc_in_buyorders"]:.2f} btc (${data["btc_in_buyorders"] * btc:.2f})')
             print(f'The average asking price is ${data["btc_in_buyorders"] / data["units_in_buyorders"] * btc:.2f}')
         else:
             target_price = float(e)
