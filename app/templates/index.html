@@ -36,7 +36,7 @@
         <p>We will consider {{"%.2f"|format(data_global["units_in_sell_orders"] / data_global["units_in_sellorders_total"] * 100)}}% of the coins in the exchange. That is {{"%.2f"|format(data_global["units_in_sell_orders"])}} coins in sell orders.</p>
         <p>The total asking price is {{"%.2f"|format(data_global["btc_in_sellorders"])}} btc (${{"%.2f"|format(data_global["btc_in_sellorders"] * data_global['btc'])}}) and the average is ${{"%.2f"|format(data_global["btc_in_sellorders"] / data_global["units_in_sell_orders"] * data_global['btc'])}}/spc</p>
         <p>BUY ORDERS</p>
-        <p>There are {{"%.2f"|format(data_global["units_in_buyorders"])}} coins in buy orders. This is {{"%.2f"|format(data_global["units_in_buyorders"] / data_global["total_coins"] * 100)}}% of the current coin in circulation.</p>
+        <p>There are {{"%.0f"|format(data_global["units_in_buyorders"])}} coins in buy orders. This is {{"%.2f"|format(data_global["units_in_buyorders"] / data_global["total_coins"] * 100)}}% of the current coin in circulation.</p>
         <p>The total asking price is {{"%.2f"|format(data_global["btc_in_buyorders"])}} btc (${{"%.2f"|format(data_global["btc_in_buyorders"] * data_global['btc'])}})</p>
         <p>The average asking price is ${{"%.2f"|format(data_global["btc_in_buyorders"] / data_global["units_in_buyorders"] * data_global['btc'])}}</p>
         <hr style="width:100%;text-align:left;margin-left:0">
