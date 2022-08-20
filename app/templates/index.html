@@ -34,9 +34,13 @@
         <p>To avoid distortion from orders with prices well above the rest, we will discard all remaining orders if the price of the order being considered is {{data_global["discard_factor"]}} times above the current average.</p>
         <p>The price at wich we stopped considering orders is {{data_global["last_price_considered"]}}btc (${{"%.2f"|format(data_global["last_price_considered"] * data_global['btc'])}}).</p>
         <p>We will consider {{"%.2f"|format(data_global["units_in_sell_orders"] / data_global["units_in_sellorders_total"] * 100)}}% of the coins in the exchange. That is {{"%.2f"|format(data_global["units_in_sell_orders"])}} coins in sell orders.</p>
-        
-        <p>To use simply modify the url to pumpthecoin.tacombel.eu/api/xx where xx is the target price in dollars</p>
-        <p>Example <a href="https://pumpthecoin.tacombel.eu/api/7.3">https://pumpthecoin.tacombel.eu/api/7.3</a></p>
+        <p>The total asking price is {{"%.2f"|format(data_global["btc_in_sellorders"])}} btc (${{"%.2f"|format(data_global["btc_in_sellorders"] * data_global['btc'])}}) and the average is ${{"%.2f"|format(data_global["btc_in_sellorders"] / data_global["units_in_sell_orders"] * data_global['btc'])}}/spc</p>
+        <p>BUY ORDERS</p>
+        <p>There are {{"%.2f"|format(data_global["units_in_buyorders"])}} coins in buy orders. This is {{"%.2f"|format(data_global["units_in_buyorders"] / data_global["total_coins"] * 100)}}% of the current coin in circulation.</p>
+        <p>The total asking price is {{"%.2f"|format(data_global["btc_in_buyorders"])}} btc (${{"%.2f"|format(data_global["btc_in_buyorders"] * data_global['btc'])}})</p>
+        <p>The average asking price is ${{"%.2f"|format(data_global["btc_in_buyorders"] / data_global["units_in_buyorders"] * data_global['btc'])}}</p>
+        <hr style="width:100%;text-align:left;margin-left:0">
+        <p>Now, if you want to know what it would take to pump the price <a href="https://pumpthecoin.tacombel.eu/api/7.3">click here</a> and modify the 7.3 in the address bar to anything you like</p>
         {% endif %}
     </div>
     <!-- Footer -->
