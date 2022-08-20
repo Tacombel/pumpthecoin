@@ -58,7 +58,7 @@ def global_data():
     for e in buyorders:
         units_in_buyorders += float(e['Amount'])
         btc_in_buyorders += float(e['Amount']) * float(e['Price'])
-    response = {'units_in_sell_orders': units_in_sellorders, 'btc_in_sellorders': btc_in_sellorders, 'units_in_buyorders': units_in_buyorders, 'btc_in_buyorders': btc_in_buyorders, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins, 'last_price_considered': last_price_considered, 'discard_factor': discard_factor, 'price_spc_usd': spc_price()}
+    response = {'units_in_sell_orders': units_in_sellorders, 'btc_in_sellorders': btc_in_sellorders, 'units_in_buyorders': units_in_buyorders, 'btc_in_buyorders': btc_in_buyorders, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins, 'last_price_considered': last_price_considered, 'discard_factor': discard_factor, 'price_spc_usd': spc_price(), 'btc': btc_price()}
     
     return response
 

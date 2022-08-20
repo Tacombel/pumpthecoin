@@ -6,7 +6,7 @@ import pumpthecoin
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
 def index():
-        return render_template('index.html')
+        return render_template('index.html', data_global=pumpthecoin.global_data())
 
 @app.route('/api/<target_price>', methods=['GET'])
 def response(target_price):
