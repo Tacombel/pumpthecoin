@@ -1,1 +1,1 @@
-docker build -t tacombel/pumpthecoin:v0.7.1 .
+docker build -t tacombel/pumpthecoin:v0.8 .
