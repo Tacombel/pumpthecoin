@@ -105,7 +105,7 @@ def global_data(books):
     for e in buyorders:
         units_in_buyorders += float(e['Amount'])
         dollars_in_buyorders += float(e['Amount']) * float(e['Price'])
-    response = {'units_in_sell_orders': units_in_sellorders, '$_in_sellorders': dollars_in_sellorders, 'units_in_buyorders': units_in_buyorders, '$_in_buyorders': dollars_in_buyorders, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins, 'last_price_considered': last_price_considered, 'discard_factor': Config.discard_factor, 'price_spc_usd': spc_price(), 'price_btc_usd': btc_price(), 'price_eth_usd': eth_price(), 'price_ltc_usd': ltc_price(), 'sell_first_orders': reversed(sellorders[:10]), 'buy_first_orders': buyorders[:10], 'gap': ((sellorders[0]['Price'] - buyorders[0]['Price']) / buyorders[0]['Price'] * 100)}
+    response = {'units_in_sell_orders': units_in_sellorders, '$_in_sellorders': dollars_in_sellorders, 'units_in_buyorders': units_in_buyorders, '$_in_buyorders': dollars_in_buyorders, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins, 'last_price_considered': last_price_considered, 'discard_factor': Config.discard_factor, 'price_spc_usd': spc_price(), 'price_btc_usd': btc_price(), 'price_eth_usd': eth_price(), 'price_ltc_usd': ltc_price(), 'sell_first_orders': reversed(sellorders[:Config.orders_listed]), 'buy_first_orders': buyorders[:Config.orders_listed], 'gap': ((sellorders[0]['Price'] - buyorders[0]['Price']) / buyorders[0]['Price'] * 100)}
     
     return response
 
@@ -120,6 +120,9 @@ if __name__ == "__main__":
             books = ['https://www.southxchange.com/api/book/SCP/BTC', 'https://www.southxchange.com/api/book/SCP/USDT', 'https://www.southxchange.com/api/book/SCP/ETH', 'https://www.southxchange.com/api/book/SCP/LTC']
             print(books)
             data = global_data(['https://www.southxchange.com/api/book/SCP/BTC', 'https://www.southxchange.com/api/book/SCP/USDT', 'https://www.southxchange.com/api/book/SCP/ETH', 'https://www.southxchange.com/api/book/SCP/LTC'])
+            print()
+            print(data)
+            print()
             btc = btc_price()
             print()
             print('SELL ORDERS')
