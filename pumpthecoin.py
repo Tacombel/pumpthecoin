@@ -77,14 +77,6 @@ def get_orders(books): #books is a list of API addresses
             buy_orders.append(order)
     buy_orders = sorted(buy_orders, key=itemgetter('Price'), reverse=True)
     sell_orders = sorted(sell_orders, key=itemgetter('Price'), reverse=False)
-    print(f'Sell orders')
-    gap = ((sell_orders[0]['Price'] - buy_orders[0]['Price']) / buy_orders[0]['Price'] * 100)
-    for e in reversed(sell_orders[:10]):
-        print(e)
-    print(f'Gap: {gap:.2f}%')
-    print(f'Buy orders')
-    for e in buy_orders[:10]:
-        print(e)
     return buy_orders, sell_orders
 
 
@@ -113,7 +105,7 @@ def global_data(books):
     for e in buyorders:
         units_in_buyorders += float(e['Amount'])
         dollars_in_buyorders += float(e['Amount']) * float(e['Price'])
-    response = {'units_in_sell_orders': units_in_sellorders, '$_in_sellorders': dollars_in_sellorders, 'units_in_buyorders': units_in_buyorders, '$_in_buyorders': dollars_in_buyorders, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins, 'last_price_considered': last_price_considered, 'discard_factor': Config.discard_factor, 'price_spc_usd': spc_price(), 'price_btc_usd': btc_price(), 'price_eth_usd': eth_price(), 'price_ltc_usd': ltc_price()}
+    response = {'units_in_sell_orders': units_in_sellorders, '$_in_sellorders': dollars_in_sellorders, 'units_in_buyorders': units_in_buyorders, '$_in_buyorders': dollars_in_buyorders, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins, 'last_price_considered': last_price_considered, 'discard_factor': Config.discard_factor, 'price_spc_usd': spc_price(), 'price_btc_usd': btc_price(), 'price_eth_usd': eth_price(), 'price_ltc_usd': ltc_price(), 'sell_first_orders': reversed(sellorders[:10]), 'buy_first_orders': buyorders[:10], 'gap': ((sellorders[0]['Price'] - buyorders[0]['Price']) / buyorders[0]['Price'] * 100)}
     
     return response
 
@@ -130,14 +122,20 @@ if __name__ == "__main__":
             data = global_data(['https://www.southxchange.com/api/book/SCP/BTC', 'https://www.southxchange.com/api/book/SCP/USDT', 'https://www.southxchange.com/api/book/SCP/ETH', 'https://www.southxchange.com/api/book/SCP/LTC'])
             btc = btc_price()
             print()
-            print(f'SELL ORDERS')
+            print('SELL ORDERS')
             print(f'There are a total of {data["units_in_sellorders_total"]:.2f} coins (${data["units_in_sellorders_total"] * data["price_spc_usd"]:.2f}) in sell orders. This is {data["units_in_sellorders_total"] / data["total_coins"] * 100:.2f}% of the current coin in circulation.')
             print(f'To avoid distortion from orders with prices well above the rest, we will discard all remaining orders if the price of the order being considered is {data["discard_factor"]} times above the current average.')
-            print(f'The price at which we stopped considering orders is ${data["last_price_considered"]}.')
+            print(f'The price at which we stopped considering orders is ${data["last_price_considered"]:.2f}.')
             print(f'We will consider {data["units_in_sell_orders"] / data["units_in_sellorders_total"] * 100:.2f}% of the coins at the exchange. That is {data["units_in_sell_orders"]:.2f} coins in sell orders.')
             print(f'The total asking price is ${data["$_in_sellorders"]:.2f} and the average is ${data["$_in_sellorders"] / data["units_in_sell_orders"]:.2f}/spc')
             print()
+            for e in data['sell_first_orders']:
+                print(e)
+            print(f'Gap: {data["gap"]:.2f}%')
             print('BUY ORDERS')
+            for e in data['buy_first_orders']:
+                print(e)
+            print()
             print(f'There are {data["units_in_buyorders"]:.2f} coins in buy orders. This is {data["units_in_buyorders"] / data["total_coins"] * 100:.2f}% of the current coin in circulation.')
             print(f'The total asking price is ${data["$_in_buyorders"]:.2f}')
             print(f'The average asking price is ${data["$_in_buyorders"] / data["units_in_buyorders"]:.2f}')
