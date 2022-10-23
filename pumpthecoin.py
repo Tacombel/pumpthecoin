@@ -134,7 +134,7 @@ if __name__ == "__main__":
             print()
             for e in data['sell_first_orders']:
                 print(e)
-            print(f'Gap: {data["gap"]:.2f}%')
+            print(f'Spread: {data["gap"]:.2f}%')
             print('BUY ORDERS')
             for e in data['buy_first_orders']:
                 print(e)
