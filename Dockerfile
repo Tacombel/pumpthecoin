@@ -1,5 +1,4 @@
-FROM python:slim
-
+FROM python:3.8.10-slim-buster
 RUN useradd microservicios
 
 WORKDIR /home/pumpthecoin
