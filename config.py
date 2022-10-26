@@ -1,7 +1,7 @@
 import os
 
 class Config(object):
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-    discard_factor = os.environ.get('SELL_DISCARD_FACTOR') or 5
-    orders_listed = os.environ.get('ORDERS_LISTED') or 10
-    buy_order_limit = os.environ.get('BUY_ORDER_LIMIT') or 80
+    SECRET_KEY = os.getenv('SECRET_KEY', default='nuncasabras')
+    discard_factor = os.getenv('SELL_DISCARD_FACTOR', default=5)
+    orders_listed = os.getenv('ORDERS_LISTED', default=10)
+    buy_order_limit = os.getenv('BUY_ORDER_LIMIT', default=80)
