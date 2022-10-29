@@ -70,7 +70,7 @@
         {%endfor%}
         </table>
         <p>To asses liquidity, we will consider only buy orders while the average is above {{data_global["buy_limit"]}}% of the current price.</p>
-        <p>There are {{"%.0f"|format(data_global["units_in_buyorders"])}} coins in this buy orders. This is {{"%.2f"|format(data_global["units_in_buyorders"] / data_global["total_coins"] * 100)}}% of the current coin in circulation. The total asking price is ${{"%.2f"|format(data_global["$_in_buyorders"])}}, at an average price of ${{"%.2f"|format(data_global["$_in_buyorders"] / data_global["units_in_buyorders"])}}/scp.</p>
+        <p>There are {{"%.0f"|format(data_global["units_in_buyorders"])}} coins in this buy orders. This is {{"%.2f"|format(data_global["units_in_buyorders"] / data_global["total_coins"] * 100)}}% of the current coin in circulation. The total asking price is ${{"%.2f"|format(data_global["$_in_buyorders"])}}, at an average price of ${{"%.2f"|format(data_global["$_in_buyorders"] / data_global["units_in_buyorders"])}}/scp. The price of the last order was ${{"%.4f"|format(data_global["last_buy_price"])}}/scp.</p>
         <hr style="width:100%;text-align:left;margin-left:0">
         <p>Now, if you want to know what it would take to pump the price <a href="/pump/7.3">click here</a> and modify the 7.3 in the address bar to anything you like</p>
         {% endif %}
