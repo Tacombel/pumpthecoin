@@ -103,14 +103,16 @@ def global_data(books):
     dollars_in_buyorders = 0
     min_price = Config.buy_order_limit / 100 * spc_price()
     for e in buyorders:
-        if float(e['Price']) < min_price:
-            break
+        units_in_buyorders_temp = units_in_buyorders + float(e['Amount'])
+        dollars_in_buyorders_temp = dollars_in_buyorders + float(e['Amount']) * float(e['Price'])
+        if not (dollars_in_buyorders_temp / units_in_buyorders_temp < min_price):
+            units_in_buyorders = units_in_buyorders_temp
+            dollars_in_buyorders = dollars_in_buyorders_temp
         else:
-            units_in_buyorders += float(e['Amount'])
-            dollars_in_buyorders += float(e['Amount']) * float(e['Price'])
-    response = {'units_in_sell_orders': units_in_sellorders, '$_in_sellorders': dollars_in_sellorders, 'units_in_buyorders': units_in_buyorders, '$_in_buyorders': dollars_in_buyorders, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins, 'last_price_considered': last_price_considered, 'discard_factor': Config.discard_factor, 'price_spc_usd': spc_price(), 'price_btc_usd': btc_price(), 'price_eth_usd': eth_price(), 'price_ltc_usd': ltc_price(), 'sell_first_orders': reversed(sellorders[:Config.orders_listed]), 'buy_first_orders': buyorders[:Config.orders_listed], 'gap': ((sellorders[0]['Price'] - buyorders[0]['Price']) / buyorders[0]['Price'] * 100), 'buy_limit': Config.buy_order_limit}
-    
-    return response
+            break
+
+    return {'units_in_sell_orders': units_in_sellorders, '$_in_sellorders': dollars_in_sellorders, 'units_in_buyorders': units_in_buyorders, '$_in_buyorders': dollars_in_buyorders, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins, 'last_price_considered': last_price_considered, 'discard_factor': Config.discard_factor, 'price_spc_usd': spc_price(), 'price_btc_usd': btc_price(), 'price_eth_usd': eth_price(), 'price_ltc_usd': ltc_price(), 'sell_first_orders': reversed(sellorders[:Config.orders_listed]), 'buy_first_orders': buyorders[:Config.orders_listed], 'gap': ((sellorders[0]['Price'] - buyorders[0]['Price']) / buyorders[0]['Price'] * 100), 'buy_limit': Config.buy_order_limit}
+
 
 if __name__ == "__main__":
     # Pasar e como argumento para resumen del mercado o una cifra para pumpthecoin
@@ -142,10 +144,9 @@ if __name__ == "__main__":
             for e in data['buy_first_orders']:
                 print(e)
             print()
-            print(f'To asses liquidity, we will consider only buy orders that are above {Config.buy_order_limit}% of the current price.')
+            print(f'To asses liquidity, we will consider only buy orders while the average is above {Config.buy_order_limit}% of the current price.')
             print(f'There are {data["units_in_buyorders"]:.2f} coins in this buy orders. This is {data["units_in_buyorders"] / data["total_coins"] * 100:.2f}% of the current coin in circulation.')
-            print(f'The total asking price is ${data["$_in_buyorders"]:.2f}')
-            print(f'The average asking price is ${data["$_in_buyorders"] / data["units_in_buyorders"]:.2f}')
+            print(f'The total asking price is ${data["$_in_buyorders"]:.2f}. The average asking price is ${data["$_in_buyorders"] / data["units_in_buyorders"]:.2f}/scp')
         else:
             target_price = float(e)
             btc, target, neccesary_amount, units = data(target_price)

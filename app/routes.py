@@ -8,7 +8,7 @@ import pumpthecoin
 def index():
         return render_template('index.html', data_global=pumpthecoin.global_data(['https://www.southxchange.com/api/book/SCP/BTC', 'https://www.southxchange.com/api/book/SCP/USDT', 'https://www.southxchange.com/api/book/SCP/ETH', 'https://www.southxchange.com/api/book/SCP/LTC']))
 
-@app.route('/api/<target_price>', methods=['GET'])
+@app.route('/pump/<target_price>', methods=['GET'])
 def response(target_price):
         target_price = float(target_price)
         btc, target, neccesary_amount, units = pumpthecoin.data(target_price)
