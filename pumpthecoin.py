@@ -111,8 +111,23 @@ def global_data(books):
             last_buy_price = e['Price']
         else:
             break
+    #Checking the amount of coins in the BTC book below the lowest order in the USDT book
+    units_in_btc_sell_orders = 0
+    dolars_in_btc_sell_orders = 0
+    lowest_BTC_order = sellorders[0]['Price']
+    for order in sellorders:
+        print(order)
+        if order['Book'] == 'BTC':
+            units_in_btc_sell_orders += order['Amount']
+            dolars_in_btc_sell_orders += order['Value']
+        if order['Book'] == 'USDT':
+            print(order['Price'])
+            first_USDT_order = order['Price']
+            break
 
-    return {'units_in_sell_orders': units_in_sellorders, '$_in_sellorders': dollars_in_sellorders, 'units_in_buyorders': units_in_buyorders, '$_in_buyorders': dollars_in_buyorders, 'last_buy_price': last_buy_price, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins, 'last_price_considered': last_price_considered, 'discard_factor': Config.discard_factor, 'price_spc_usd': spc_price(), 'price_btc_usd': btc_price(), 'price_eth_usd': eth_price(), 'price_ltc_usd': ltc_price(), 'sell_first_orders': reversed(sellorders[:Config.orders_listed]), 'buy_first_orders': buyorders[:Config.orders_listed], 'gap': ((sellorders[0]['Price'] - buyorders[0]['Price']) / buyorders[0]['Price'] * 100), 'buy_limit': Config.buy_order_limit}
+
+
+    return {'units_in_sell_orders': units_in_sellorders, '$_in_sellorders': dollars_in_sellorders, 'units_in_buyorders': units_in_buyorders, '$_in_buyorders': dollars_in_buyorders, 'last_buy_price': last_buy_price, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins, 'last_price_considered': last_price_considered, 'discard_factor': Config.discard_factor, 'price_spc_usd': spc_price(), 'price_btc_usd': btc_price(), 'price_eth_usd': eth_price(), 'price_ltc_usd': ltc_price(), 'sell_first_orders': reversed(sellorders[:Config.orders_listed]), 'buy_first_orders': buyorders[:Config.orders_listed], 'gap': ((sellorders[0]['Price'] - buyorders[0]['Price']) / buyorders[0]['Price'] * 100), 'buy_limit': Config.buy_order_limit, 'units_in_btc_sell_orders': units_in_btc_sell_orders, 'dolars_in_btc_sell_orders':dolars_in_btc_sell_orders, 'first_USDT_order':first_USDT_order, 'lowest_BTC_order':lowest_BTC_order}
 
 
 if __name__ == "__main__":
@@ -157,3 +172,12 @@ if __name__ == "__main__":
             print(f'I need {neccesary_amount:.2f} btc or, in dollars, ${neccesary_amount * btc:.0f} plus commissions')
             print(f'I will end having {units:.2f} coins at an average price of ${neccesary_amount * btc / units:.2f}')
         continue
+    print()
+    print(f'Sell orders in BTC below lowest price in USDT')
+    print(f'Lowest BTC order: ${data["lowest_BTC_order"]:.4f}')
+    print(f'Lowest USDT sell order: ${data["first_USDT_order"]:.4f}')
+    print(f'Trading gap: {(data["first_USDT_order"] - data["lowest_BTC_order"]) / data["lowest_BTC_order"] * 100:.2f}%')
+    print(f'Units in this orders: {data["units_in_btc_sell_orders"]:.0f} SPC')
+    print(f'Dollars in this orders: ${data["dolars_in_btc_sell_orders"]:.2f}')
+    print(f'Average price: ${data["dolars_in_btc_sell_orders"] / data["units_in_btc_sell_orders"]:.4f}')
+    print(f'Potencial earnings: ${((data["first_USDT_order"] - (data["dolars_in_btc_sell_orders"] / data["units_in_btc_sell_orders"]))) * data["units_in_btc_sell_orders"]:.2f}')
