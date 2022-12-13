@@ -179,5 +179,6 @@ if __name__ == "__main__":
     print(f'Trading gap: {(data["first_USDT_order"] - data["lowest_BTC_order"]) / data["lowest_BTC_order"] * 100:.2f}%')
     print(f'Units in this orders: {data["units_in_btc_sell_orders"]:.0f} SPC')
     print(f'Dollars in this orders: ${data["dolars_in_btc_sell_orders"]:.2f}')
-    print(f'Average price: ${data["dolars_in_btc_sell_orders"] / data["units_in_btc_sell_orders"]:.4f}')
-    print(f'Potencial earnings: ${((data["first_USDT_order"] - (data["dolars_in_btc_sell_orders"] / data["units_in_btc_sell_orders"]))) * data["units_in_btc_sell_orders"]:.2f}')
+    if data['units_in_btc_sell_orders'] != 0:
+        print(f'Average price: ${data["dolars_in_btc_sell_orders"] / data["units_in_btc_sell_orders"]:.4f}')
+        print(f'Potencial earnings: ${((data["first_USDT_order"] - (data["dolars_in_btc_sell_orders"] / data["units_in_btc_sell_orders"]))) * data["units_in_btc_sell_orders"]:.2f}')
