@@ -2,36 +2,67 @@ import requests
 import sys
 from config import Config
 from operator import itemgetter
+from time import time
 
-
+cache_timer = 60
+price_btc = [0, 0]
 def btc_price():
-    btc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
-    btc = btc.json()
-    btc = float(btc['bitcoin']['usd'])
+    global price_btc
+    if time() > price_btc[1] + cache_timer or price_btc[1] == 0:
+        btc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
+        btc = btc.json()
+        btc = float(btc['bitcoin']['usd'])
+        price_btc = [btc, time()]
+    else:
+        btc = price_btc[0]
     return btc
 
+price_spc = [0, 0]
 def spc_price():
-    spc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=siaprime-coin&vs_currencies=btc%2Cusd')
-    spc = spc.json()
-    spc = spc['siaprime-coin']['usd']
+    global price_spc
+    if time() > price_spc[1] + cache_timer or price_spc[1] == 0:
+        spc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=siaprime-coin&vs_currencies=btc%2Cusd')
+        spc = spc.json()
+        spc = spc['siaprime-coin']['usd']
+        price_spc = [spc, time()]
+    else:
+        spc = price_spc[0]
     return spc
 
+price_usdt = [0, 0]
 def usdt_price():
-    usdt = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd')
-    usdt = usdt.json()
-    usdt = usdt['tether']['usd']
+    global price_usdt
+    if time() > price_usdt[1] + cache_timer or price_usdt[1] == 0:
+        usdt = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd')
+        usdt = usdt.json()
+        usdt = usdt['tether']['usd']
+        price_usdt = [usdt, time()]
+    else:
+        usdt = price_usdt[0]
     return usdt
 
+price_eth = [0, 0]
 def eth_price():
-    eth = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
-    eth = eth.json()
-    eth = eth['ethereum']['usd']
+    global price_eth
+    if time() > price_eth[1] + cache_timer or price_eth[1] == 0:
+        eth = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
+        eth = eth.json()
+        eth = eth['ethereum']['usd']
+        price_eth = [eth, time()]
+    else:
+        eth = price_eth[0]
     return eth
 
+price_ltc = [0, 0]
 def ltc_price():
-    ltc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=litecoin&vs_currencies=usd')
-    ltc = ltc.json()
-    ltc = ltc['litecoin']['usd']
+    global price_ltc
+    if time() > price_ltc[1] + cache_timer or price_ltc[1] == 0:
+        ltc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=litecoin&vs_currencies=usd')
+        ltc = ltc.json()
+        ltc = ltc['litecoin']['usd']
+        price_ltc = [ltc, time()]
+    else:
+        ltc = price_ltc[0]
     return ltc
 
 def data(target_price):
