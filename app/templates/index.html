@@ -34,7 +34,7 @@
         <p>To avoid distortion from orders with prices well above the rest, we will discard all remaining orders if the price of the order being considered is {{data_global["discard_factor"]}} times above the current average.</p>
         <p>The price at which we stopped considering orders is ${{data_global["last_price_considered"]}}.</p>
         <p>We will consider {{"%.2f"|format(data_global["units_in_sell_orders"] / data_global["units_in_sellorders_total"] * 100)}}% of the coins in the exchange. That is {{"%.2f"|format(data_global["units_in_sell_orders"])}} coins in sell orders.</p>
-        <p>The total asking price is ${{"%.2f"|format(data_global["$_in_sellorders"])}} and the average is ${{"%.2f"|format(data_global["$_in_sellorders"] / data_global["units_in_sell_orders"])}}/spc</p>
+        <p>The total asking price is ${{"%.2f"|format(data_global["$_in_sellorders"])}} and the average is ${{"%.2f"|format(data_global["$_in_sellorders"] / data_global["units_in_sell_orders"])}}/scp</p>
         <table>
             <tr>
                 <th style="width:10%">Book</th>
@@ -79,7 +79,7 @@
     <footer class="page-footer font-small blue pt-4">
         <!-- Copyright -->
         <hr style="width:100%;margin-left:0" class="text-center">
-        <div class="footer-copyright text-center py-3">v0.8.8      ©2023 tacombel@gmail.com</div>
+        <div class="footer-copyright text-center py-3">v0.8.9      ©2023 tacombel@gmail.com</div>
         <!-- Copyright -->
     </footer>
     <!-- Footer -->
