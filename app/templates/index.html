@@ -30,7 +30,7 @@
                   <a class="nav-link" href="/">All</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/">SouthXchange</a>
+                  <a class="nav-link" href="/southxchange">SouthXchange</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/trade_ogre">Trade Ogre</a>
@@ -108,12 +108,12 @@
             <tbody>    
                     {%for i in data_to[1]%}
                 <tr>
-                    <td>TO</td>
-                    <td>BTC</td>
-                    <td>{{"%.0f"|format(i[1])}}</td>
                     <td>{{i[0]}}</td>
-                    <td>${{"%.4f"|format(i[2])}}</td>
-                    <td>${{"%.4f"|format(i[3])}}</td>
+                    <td>{{i[1]}}</td>
+                    <td>{{"%.2f"|format(i[2])}}</td>
+                    <td>{{i[3]}}</td>
+                    <td>${{"%.4f"|format(i[4])}}</td>
+                    <td>${{"%.2f"|format(i[5])}}</td>
                 </tr>
                 {%endfor%}
             </tbody>
@@ -133,12 +133,12 @@
             <tbody>
                 {%for i in data_to[0]%}
                 <tr>
-                    <td>TO</td>
-                    <td>BTC</td>
-                    <td>{{"%.0f"|format(i[1])}}</td>
                     <td>{{i[0]}}</td>
-                    <td>${{"%.4f"|format(i[2])}}</td>
-                    <td>${{"%.4f"|format(i[3])}}</td>
+                    <td>{{i[1]}}</td>
+                    <td>{{"%.2f"|format(i[2])}}</td>
+                    <td>{{i[3]}}</td>
+                    <td>${{"%.4f"|format(i[4])}}</td>
+                    <td>${{"%.2f"|format(i[5])}}</td>
                 </tr>
                 {%endfor%}
             </tbody>
@@ -149,7 +149,7 @@
     <footer class="page-footer font-small blue pt-4">
         <!-- Copyright -->
         <hr style="width:100%;margin-left:0" class="text-center">
-        <div class="footer-copyright text-center py-3">v0.9.1      ©2023 tacombel@gmail.com</div>
+        <div class="footer-copyright text-center py-3">v0.9.2      ©2023 tacombel@gmail.com</div>
         <!-- Copyright -->
     </footer>
     <!-- Footer -->

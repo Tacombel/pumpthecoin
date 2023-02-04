@@ -1,0 +1,34 @@
+def global_data(books):
+    # total coins in circulation
+    data = requests.get('https://consensus.scpri.me/status')
+    total_coins = data.json()['totalcoins']
+    buyorders, sellorders = get_orders_old(books)
+    units_in_sellorders_total = 0
+    #sell orders
+    for e in sellorders:
+        units_in_sellorders_total += float(e['Amount'])
+    units_in_sellorders = 0
+    dollars_in_sellorders = 0
+    first_order = True
+    for e in sellorders:
+        if not first_order and (float(e['Price'] > (dollars_in_sellorders / units_in_sellorders * Config.discard_factor))):
+            break
+        units_in_sellorders += float(e['Amount'])
+        dollars_in_sellorders += float(e['Amount']) * float(e['Price'])
+        first_order = False
+        last_price_considered = float(e['Price'])
+    #buy orders
+    units_in_buyorders = 0
+    dollars_in_buyorders = 0
+    min_price = Config.buy_order_limit / 100 * spc_price()
+    for e in buyorders:
+        units_in_buyorders_temp = units_in_buyorders + float(e['Amount'])
+        dollars_in_buyorders_temp = dollars_in_buyorders + float(e['Amount']) * float(e['Price'])
+        if not (dollars_in_buyorders_temp / units_in_buyorders_temp < min_price):
+            units_in_buyorders = units_in_buyorders_temp
+            dollars_in_buyorders = dollars_in_buyorders_temp
+            last_buy_price = e['Price']
+        else:
+            break
+
+    return {'units_in_sell_orders': units_in_sellorders, '$_in_sellorders': dollars_in_sellorders, 'units_in_buyorders': units_in_buyorders, '$_in_buyorders': dollars_in_buyorders, 'last_buy_price': last_buy_price, 'units_in_sellorders_total': units_in_sellorders_total, 'total_coins': total_coins, 'last_price_considered': last_price_considered, 'discard_factor': Config.discard_factor, 'price_spc_usd': spc_price(), 'price_btc_usd': btc_price(), 'price_eth_usd': eth_price(), 'price_ltc_usd': ltc_price(), 'sell_first_orders': reversed(sellorders[:Config.orders_listed]), 'buy_first_orders': buyorders[:Config.orders_listed], 'gap': ((sellorders[0]['Price'] - buyorders[0]['Price']) / buyorders[0]['Price'] * 100), 'buy_limit': Config.buy_order_limit}

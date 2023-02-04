@@ -9,7 +9,7 @@ RUN venv/bin/pip install -r requirements.txt
 RUN venv/bin/pip install gunicorn
 
 COPY app app
-COPY boot.sh config.py .flaskenv pumpthecoin.py pumpthecoin-flask.py to.py ./
+COPY boot.sh config.py .flaskenv pumpthecoin.py pumpthecoin-flask.py ./
 RUN chmod +x boot.sh
 
 ENV FLASK_APP pumpthecoin-flask
