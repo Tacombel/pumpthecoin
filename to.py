@@ -24,11 +24,11 @@ def get_order_book():
     buy_orders = orders["buy"]
     buy_orders_list = []
     for k in buy_orders:
-        buy_orders_list.append([k, buy_orders[k]])
+        buy_orders_list.append([float(k), float(buy_orders[k])])
     sell_orders = orders["sell"]
     sell_orders_list = []
     for k in sell_orders:
-        sell_orders_list.append([k, sell_orders[k]])
+        sell_orders_list.append([float(k), float(sell_orders[k])])
     return buy_orders_list, sell_orders_list
 
 def list_orders():
