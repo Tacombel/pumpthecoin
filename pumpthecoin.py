@@ -1,9 +1,8 @@
 import requests
-import sys
-from config import Config
 from operator import itemgetter
 from time import time
 import json
+import math
 
 cache_timer = 60
 price_btc = [0, 0]
@@ -129,6 +128,32 @@ def combine_data(data):
     combined_sells = sorted(combined_sells, key=itemgetter(4), reverse=True)
     return [combined_buys, combined_sells]
 
+def group_to_orders():
+    group = {}
+    orders = get_to_orders()
+    for order in orders[0]:
+        key = str(math.trunc(float(order[3]) * 1E6))
+        if key in group:
+            group[key] = group[key] + float(order[2])
+        else:
+            group[key] = float(order[2])
+    bids_grouped = []
+    for key, value in group.items():
+        text = f'From {int(key) * 100} to {int(key) * 100 + 99}: {value:.0f} SCP'
+        bids_grouped.append(text)
+    group = {}
+    for order in orders[1]:
+        key = str(math.trunc(float(order[3]) * 1E6))
+        if key in group:
+            group[key] = group[key] + float(order[2])
+        else:
+            group[key] = float(order[2])
+    asks_grouped = []
+    for key, value in group.items():
+        text = f'From {int(key) * 100} to {int(key) * 100 + 99}: {value:.0f} SCP'
+        asks_grouped.append(text)
+    return([bids_grouped, asks_grouped])
+
 def main():
     x = combine_data([get_to_orders(), get_sx_orders('https://www.southxchange.com/api/book/SCP/BTC')])
     for e in x[1][-10:]:
@@ -139,4 +164,6 @@ def main():
     
 
 if __name__ == "__main__":
-    main()
+    group_to_orders = group_to_orders()
+    print(group_to_orders[0])
+    print(group_to_orders[1])

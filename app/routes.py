@@ -24,3 +24,8 @@ def trade_ogre():
         sell_orders = data[1][-10:]
         buy_orders = data[0][0:10]
         return render_template('index.html', data_to=[buy_orders, sell_orders])
+
+@app.route('/stats/to', methods=['GET'])
+def stats_to():
+        return render_template('index.html', grouped_data = pumpthecoin.group_to_orders())
+
