@@ -137,6 +137,7 @@ def group_to_orders():
             group[key] = group[key] + float(order[2])
         else:
             group[key] = float(order[2])
+    total_in_bids =  int(round(sum(group.values()), 0))
     bids_grouped = []
     for key, value in group.items():
         text = f'From {int(key) * 100} to {int(key) * 100 + 99}: {value:.0f} SCP'
@@ -148,11 +149,12 @@ def group_to_orders():
             group[key] = group[key] + float(order[2])
         else:
             group[key] = float(order[2])
+    total_in_asks = int(round(sum(group.values()), 0))
     asks_grouped = []
     for key, value in group.items():
         text = f'From {int(key) * 100} to {int(key) * 100 + 99}: {value:.0f} SCP'
         asks_grouped.append(text)
-    return([bids_grouped, asks_grouped])
+    return([bids_grouped, asks_grouped, total_in_bids, total_in_asks])
 
 def main():
     x = combine_data([get_to_orders(), get_sx_orders('https://www.southxchange.com/api/book/SCP/BTC')])
