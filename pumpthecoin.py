@@ -3,6 +3,11 @@ from operator import itemgetter
 from time import time
 import json
 import math
+import logging
+
+#logging.basicConfig(filename = 'filename.log', level=logging.<log_level>, format = '<message_structure>')
+logging.basicConfig(level=logging.DEBUG, format = f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+
 
 cache_timer = 60
 price_btc = [0, 0]
@@ -89,6 +94,9 @@ def get_sx_orders(book_url):
     elif type == 'ETH':
         price = eth_price()
     data = requests.get(book_url)
+    #creo que la API falla a veces y da error aqui. Meto un volcado de control.
+    if data.status_code != 200:
+        logging.critical(f'SX data: {data.status_code}')
     buyorders = data.json()['BuyOrders']
     buyorders_list = []
     for order in buyorders:
@@ -169,3 +177,4 @@ if __name__ == "__main__":
     group_to_orders = group_to_orders()
     print(group_to_orders[0])
     print(group_to_orders[1])
+    
