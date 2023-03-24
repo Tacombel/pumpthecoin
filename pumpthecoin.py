@@ -1,6 +1,6 @@
 import requests
 from operator import itemgetter
-from time import time
+from time import time, sleep
 import json
 import math
 import logging
@@ -93,10 +93,13 @@ def get_sx_orders(book_url):
         price = ltc_price()
     elif type == 'ETH':
         price = eth_price()
-    data = requests.get(book_url)
-    #creo que la API falla a veces y da error aqui. Meto un volcado de control.
-    if data.status_code != 200:
-        logging.critical(f'SX data: {data.status_code}')
+    while True:
+        data = requests.get(book_url)
+        if data.status_code == 200:
+            break
+        else:
+            logging.critical(f'Error. Retrying {book_url} in 10 seconds')
+            sleep(10)
     buyorders = data.json()['BuyOrders']
     buyorders_list = []
     for order in buyorders:
@@ -112,7 +115,13 @@ def get_to_orders():
     price = btc_price()
     root_url = 'https://tradeogre.com/api/v1'
     url = root_url + '/orders/BTC-SCP'
-    orders = requests.get(url)
+    while True:
+        orders = requests.get(url)
+        if orders.status_code == 200:
+            break
+        else:
+            logging.critical(f'Error. Retrying {url} in 10 seconds')
+            sleep(10)
     orders = json.loads(orders.text)
     buy_orders = orders["buy"]
     buy_orders_list = []
