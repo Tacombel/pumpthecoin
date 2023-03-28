@@ -15,9 +15,15 @@ def btc_price():
     global price_btc
     if time() > price_btc[1] + cache_timer or price_btc[1] == 0:
         btc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
-        btc = btc.json()
-        btc = float(btc['bitcoin']['usd'])
-        price_btc = [btc, time()]
+        while True:
+            if btc.status_code == 200:
+                btc = btc.json()
+                btc = float(btc['bitcoin']['usd'])
+                price_btc = [btc, time()]
+                break
+            else:
+                logging.critical(f'Coingecko failed. Status code: {btc.status_code}. Retrying in 10 seconds')
+                sleep(10)
     else:
         btc = price_btc[0]
     return btc
@@ -27,9 +33,15 @@ def spc_price():
     global price_spc
     if time() > price_spc[1] + cache_timer or price_spc[1] == 0:
         spc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=siaprime-coin&vs_currencies=btc%2Cusd')
-        spc = spc.json()
-        spc = spc['siaprime-coin']['usd']
-        price_spc = [spc, time()]
+        while True:
+            if spc.status_code == 200:
+                spc = spc.json()
+                spc = spc['siaprime-coin']['usd']
+                price_spc = [spc, time()]
+                break
+            else:
+                logging.critical(f'Coingecko failed. Status code: {spc.status_code}. Retrying in 10 seconds')
+                sleep(10)
     else:
         spc = price_spc[0]
     return spc
@@ -39,9 +51,15 @@ def usdt_price():
     global price_usdt
     if time() > price_usdt[1] + cache_timer or price_usdt[1] == 0:
         usdt = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd')
-        usdt = usdt.json()
-        usdt = usdt['tether']['usd']
-        price_usdt = [usdt, time()]
+        while True:
+            if usdt.status_code == 200:
+                usdt = usdt.json()
+                usdt = usdt['tether']['usd']
+                price_usdt = [usdt, time()]
+                break
+            else:
+                logging.critical(f'Coingecko failed. Status code: {usdt.status_code}. Retrying in 10 seconds')
+                sleep(10)
     else:
         usdt = price_usdt[0]
     return usdt
@@ -51,9 +69,15 @@ def eth_price():
     global price_eth
     if time() > price_eth[1] + cache_timer or price_eth[1] == 0:
         eth = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
-        eth = eth.json()
-        eth = eth['ethereum']['usd']
-        price_eth = [eth, time()]
+        while True:
+            if eth.status_code == 200:
+                eth = eth.json()
+                eth = eth['ethereum']['usd']
+                price_eth = [eth, time()]
+                break
+            else:
+                logging.critical(f'Coingecko failed. Status code: {eth.status_code}. Retrying in 10 seconds')
+                sleep(10)
     else:
         eth = price_eth[0]
     return eth
