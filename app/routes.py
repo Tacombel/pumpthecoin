@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, Response
 from app import app
 import pumpthecoin
 
@@ -29,3 +29,6 @@ def trade_ogre():
 def stats_to():
         return render_template('index.html', grouped_data = pumpthecoin.group_to_orders())
 
+@app.route('/uptimerobot', methods=['GET'])
+def uptimerobot():
+        return Response("{'Success'='True}", status=200, mimetype='application/json')
