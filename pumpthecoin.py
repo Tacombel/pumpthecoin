@@ -12,17 +12,17 @@ logging.basicConfig(level=logging.DEBUG, format = f'%(asctime)s %(levelname)s %(
 coingecko_queue = [0, 0, 0, 0, 0]
 coingecko_timer = 60.0
 
-price_btc = 0
+price_btc_cg = 0
 def btc_price():
     global coingecko_queue
-    global price_btc
-    if time() > coingecko_queue[0] + coingecko_timer or price_btc == 0:
+    global price_btc_cg
+    if time() > coingecko_queue[0] + coingecko_timer or price_btc_cg == 0:
         btc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
         while True:
             if btc.status_code == 200:
                 btc = btc.json()
                 btc = float(btc['bitcoin']['usd'])
-                price_btc = btc
+                price_btc_cg = btc
                 del coingecko_queue[0]
                 coingecko_queue.append(time())
                 break
@@ -31,20 +31,20 @@ def btc_price():
                 sleep(10)
     else:
         logging.debug(f'Using saved value')
-        btc = price_btc
+        btc = price_btc_cg
     return btc
 
-price_spc = 0
+price_spc_cg = 0
 def spc_price():
     global coingecko_queue
-    global price_spc
-    if time() > coingecko_queue[0] + coingecko_timer or price_spc == 0:
+    global price_spc_cg
+    if time() > coingecko_queue[0] + coingecko_timer or price_spc_cg == 0:
         spc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=siaprime-coin&vs_currencies=btc%2Cusd')
         while True:
             if spc.status_code == 200:
                 spc = spc.json()
                 spc = spc['siaprime-coin']['usd']
-                price_spc = spc
+                price_spc_cg = spc
                 del coingecko_queue[0]
                 coingecko_queue.append(time())
                 break
@@ -53,20 +53,20 @@ def spc_price():
                 sleep(10)
     else:
         logging.debug(f'Using saved value')
-        spc = price_spc
+        spc = price_spc_cg
     return spc
 
-price_usdt = 0
+price_usdt_cg = 0
 def usdt_price():
     global coingecko_queue
-    global price_usdt
-    if time() > coingecko_queue[0] + coingecko_timer or price_usdt == 0:
+    global price_usdt_cg
+    if time() > coingecko_queue[0] + coingecko_timer or price_usdt_cg == 0:
         usdt = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd')
         while True:
             if usdt.status_code == 200:
                 usdt = usdt.json()
                 usdt = usdt['tether']['usd']
-                price_usdt = usdt
+                price_usdt_cg = usdt
                 del coingecko_queue[0]
                 coingecko_queue.append(time())
                 break
@@ -75,20 +75,20 @@ def usdt_price():
                 sleep(10)
     else:
         logging.debug(f'Using saved value')
-        usdt = price_usdt
+        usdt = price_usdt_cg
     return usdt
 
-price_eth = [0, 0]
+price_eth_cg = 0
 def eth_price():
     global coingecko_queue
-    global price_eth
-    if time() > coingecko_queue[0] + coingecko_timer or price_eth == 0:
+    global price_eth_cg
+    if time() > coingecko_queue[0] + coingecko_timer or price_eth_cg == 0:
         eth = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
         while True:
             if eth.status_code == 200:
                 eth = eth.json()
                 eth = eth['ethereum']['usd']
-                price_eth = eth
+                price_eth_cg = eth
                 del coingecko_queue[0]
                 coingecko_queue.append(time())
                 break
@@ -97,23 +97,23 @@ def eth_price():
                 sleep(10)
     else:
         logging.debug(f'Using saved value')
-        eth = price_eth
+        eth = price_eth_cg
     return eth
 
-price_ltc = [0, 0]
+price_ltc_cg = 0
 def ltc_price():
     global coingecko_queue
-    global price_ltc
-    if time() > coingecko_queue[0] + coingecko_timer or price_ltc == 0:
+    global price_ltc_cg
+    if time() > coingecko_queue[0] + coingecko_timer or price_ltc_cg == 0:
         ltc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=litecoin&vs_currencies=usd')
         ltc = ltc.json()
         ltc = ltc['litecoin']['usd']
-        price_ltc = ltc
+        price_ltc_cg = ltc
         del coingecko_queue[0]
         coingecko_queue.append(time())
     else:
         logging.debug(f'Using saved value')
-        ltc = price_ltc
+        ltc = price_ltc_cg
     return ltc
 
 def data(target_price):
