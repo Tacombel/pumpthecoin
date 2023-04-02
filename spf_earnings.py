@@ -3,13 +3,14 @@ from requests.structures import CaseInsensitiveDict
 import json
 
 contract_rent = 4
+contract_collateral = 4
 spf_total = 400000000
 spf_share = 0.15
 
 def earnings(amount, months, data_stored):
   if data_stored == 'no_data':
     data_stored = float(data_stored_today())
-  spf_share_dollars = contract_rent * data_stored * spf_share / spf_total
+  spf_share_dollars = (contract_rent * data_stored * spf_share + contract_collateral * data_stored *spf_share) / spf_total
   return [round(amount, 0), round(months, 0), round(data_stored, 0), round(spf_share_dollars * amount * months, 4)]
   
 def data_stored_today():

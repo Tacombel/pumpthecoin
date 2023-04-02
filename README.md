@@ -1,4 +1,4 @@
-v 0.10.3
+v 0.10.4
 
 Copy LICENSE, pumpthecoin.py and requirements.txt in you system. Ignore all other files.
 
