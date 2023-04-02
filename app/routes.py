@@ -1,4 +1,4 @@
-from flask import render_template, Response
+from flask import render_template, Response, request
 from app import app
 import pumpthecoin
 import spf_earnings
@@ -36,4 +36,19 @@ def uptimerobot():
 
 @app.route('/spf_earnings', methods=['GET', 'POST'])
 def spfearnings():
-        return render_template('index.html', spf_data = spf_earnings.earnings())
+        if request.method == 'GET':
+                return render_template('index.html', spf_data = spf_earnings.earnings(10000, 1, 'no_data'))
+        elif request.method == 'POST':
+                if request.form['SPFamount'] == '':
+                        SPFamount = 10000
+                else:
+                        SPFamount = float(request.form['SPFamount'])
+                if request.form['numberOfMonths'] == '':
+                        numberOfMonths = 1
+                else:
+                        numberOfMonths = float(request.form['numberOfMonths'])
+                if request.form['dataStored'] == '':
+                        dataStored = 'no_data'
+                else:
+                        dataStored = float(request.form['dataStored'])
+                return render_template('index.html', spf_data = spf_earnings.earnings(SPFamount, numberOfMonths, dataStored))

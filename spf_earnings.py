@@ -6,9 +6,9 @@ contract_rent = 4
 spf_total = 400000000
 spf_share = 0.15
 
-def earnings(amount=10000, months=1, data_stored='no_data'):
+def earnings(amount, months, data_stored):
   if data_stored == 'no_data':
-    data_stored = data_stored_today()
+    data_stored = float(data_stored_today())
   spf_share_dollars = contract_rent * data_stored * spf_share / spf_total
   return [round(amount, 0), round(months, 0), round(data_stored, 0), round(spf_share_dollars * amount * months, 4)]
   
@@ -23,7 +23,7 @@ def data_stored_today():
   r = r['results']['A']['frames'][0]['data']['values'][0][0]
   r = r.split()
   r = r[0]
-  return float(r)
+  return r
        
 
 if __name__ == "__main__":
