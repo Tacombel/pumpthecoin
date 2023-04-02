@@ -1,6 +1,7 @@
 from flask import render_template, Response
 from app import app
 import pumpthecoin
+import spf_earnings
 
 
 @app.route('/', methods=['GET'])
@@ -32,3 +33,7 @@ def stats_to():
 @app.route('/uptimerobot', methods=['GET'])
 def uptimerobot():
         return Response("{'Success'='True}", status=200, mimetype='application/json')
+
+@app.route('/spf_earnings', methods=['GET', 'POST'])
+def spfearnings():
+        return render_template('index.html', spf_data = spf_earnings.earnings())

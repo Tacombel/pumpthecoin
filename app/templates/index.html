@@ -164,12 +164,16 @@
                 </ul>
             <p>Total: {{grouped_data[2]}} SCP</p>
         {%endif%}
+        {%if spf_data%}
+                <h2>SPF potential earnigs</h2>
+                <p>{{spf_data[0]}} spf will produce ${{spf_data[3]}} every {{spf_data[1]}} month with {{spf_data[2]}}TB stored on the network</p>
+        {%endif%}
     </div>
     <!-- Footer -->
     <footer class="page-footer font-small blue pt-4">
         <!-- Copyright -->
         <hr style="width:100%;margin-left:0" class="text-center">
-        <div class="footer-copyright text-center py-3">v0.9.10      ©2023 tacombel@gmail.com</div>
+        <div class="footer-copyright text-center py-3">v0.10.1      ©2023 tacombel@gmail.com</div>
         <!-- Copyright -->
     </footer>
     <!-- Footer -->
