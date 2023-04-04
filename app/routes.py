@@ -2,6 +2,7 @@ from flask import render_template, Response, request
 from app import app
 import pumpthecoin
 import spf_earnings
+import logging
 
 
 @app.route('/', methods=['GET'])
@@ -10,7 +11,7 @@ def pump_the_coin():
         if request.method == 'GET':
                 return render_template('index.html', pumpthecoin_data=[0])
         elif request.method == 'POST':
-                pump_the_coin = [0, 0, 0, 0, 0]
+                pump_the_coin = {}
                 combine = []
                 if 'SXBTC' in request.form.getlist('market'):
                         pump_the_coin[0] = 1
@@ -19,19 +20,32 @@ def pump_the_coin():
                         pump_the_coin[1] = 1
                         combine.append(pumpthecoin.get_to_orders())
                 data = pumpthecoin.combine_data(combine)
+                ask = data[1]
+                ask.reverse()
                 if request.form['Price'] != '':
+                        pump_the_coin['query'] = 'price'
+                        pump_the_coin['price'] = float(request.form['Price'])
+                        dollars = 0
                         amount = 0
-                        for e in data[1]:
-                                while float(e[4]) < float(request.form['Price']):
+                        order = 1
+                        for e in ask:
+                                
+                                if float(e[4]) < float(request.form['Price']):
+                                        dollars += e[5]
                                         amount += e[2]
                                 else:
-                                        amount += 1
-                        pump_the_coin[2] = amount
+                                        break
+                                order += 1
+                        if order > len(ask):
+                                pump_the_coin['last_price'] = ask[-1][4]
+                        
+                        pump_the_coin['dollars'] = round(dollars)
+                        pump_the_coin['amount'] = round(amount)
                 elif request.form['amountToBuy'] != '':
-                        pump_the_coin[3] = request.form['amountToBuy']
+                        a = request.form['amountToBuy']
                 elif request.form['amountToSell'] != '':
-                        pump_the_coin[4] = request.form['amountToSell']
-                return render_template('index.html', pumpthecoin_data=data)
+                        b = request.form['amountToSell']
+                return render_template('index.html', pumpthecoin_data=pump_the_coin)
 
 @app.route('/all', methods=['GET'])
 def all():
