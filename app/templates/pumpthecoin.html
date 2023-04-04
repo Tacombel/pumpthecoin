@@ -39,13 +39,26 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
         </form>
-    {%if 'price' in pumpthecoin_data['query']%}
+    {%if pumpthecoin_data['amount']%}
         <hr style="width:100%;margin-left:0" class="text-center">
         {%if pumpthecoin_data['last_price']%}
-        <p>There are no orders at the required price. The most expensive one asks for ${{pumpthecoin_data['last_price']}}
-        <p>You can buy {{pumpthecoin_data['amount']}} SCP for ${{pumpthecoin_data['dollars']}}</p>
+        <p>There are no orders at the required price. The most expensive one asks for ${{pumpthecoin_data['last_price']}}.</p>
+        <p>You can buy {{pumpthecoin_data['amount']}} SCP for ${{pumpthecoin_data['dollars']}}.</p>
         {%else%}
-        <p>To raise the price to ${{pumpthecoin_data['price']}} you need to buy around {{pumpthecoin_data['amount']}} SCP and invest ${{pumpthecoin_data['dollars']}}</p>
+        <p>To raise the price to ${{pumpthecoin_data['price']}} you need to invest around ${{pumpthecoin_data['dollars']}} to buy {{pumpthecoin_data['amount']}} SCP.</p>
         {%endif%}
+    {%endif%}
+    {%if pumpthecoin_data['amount_buying']%}
+        <hr style="width:100%;margin-left:0" class="text-center">    
+        {%if pumpthecoin_data['last_price_buying']%}
+        <p>There are not enough coins in the market. You can buy {{pumpthecoin_data['amount_buying']}} SCP for ${{pumpthecoin_data['dollars_buying']}}, at an average of ${{pumpthecoin_data['average_buying']}}.</p>
+        {%else%}
+        <p>To buy {{pumpthecoin_data['amount_buying']}} SCP, you need ${{pumpthecoin_data['dollars_buying']}}, at an average of ${{pumpthecoin_data['average_buying']}}.</p>
+        {%endif%}
+    {%endif%}
+    {%if pumpthecoin_data['amountToSell']%}
+      <hr style="width:100%;margin-left:0" class="text-center">
+      <p>Are you sure of what you are doing?????</p>
+      <p>Seriously now, this will work soon</p>
     {%endif%}
 {%endif%}
