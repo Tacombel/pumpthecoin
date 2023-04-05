@@ -35,7 +35,7 @@ def pump_the_coin():
                                         break
                                 order += 1
                         if order > len(ask):
-                                pump_the_coin['last_price'] = ask[-1][4]
+                                pump_the_coin['last_price'] = round(ask[-1][4], 4)
                         pump_the_coin['dollars'] = round(dollars)
                         pump_the_coin['amount'] = round(amount)
                         pump_the_coin['average'] = round(dollars / amount, 4)
@@ -56,7 +56,7 @@ def pump_the_coin():
                                 order += 1
                         pump_the_coin['amount_buying'] = round(float(request.form['amountToBuy']))
                         if order > len(ask):
-                                pump_the_coin['last_price_buying'] = ask[-1][4]
+                                pump_the_coin['last_price_buying'] = round(ask[-1][4], 4) #used as key in the html
                                 pump_the_coin['amount_buying'] = round(amount)
                         pump_the_coin['dollars_buying'] = round(dollars)
                         pump_the_coin['average_buying'] = round(dollars / float(request.form['amountToBuy']), 2)
