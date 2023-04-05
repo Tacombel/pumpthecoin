@@ -64,7 +64,7 @@
       {%if pumpthecoin_data['last_price_selling']%}
         <p>There are not enough coins in the market. You can buy {{pumpthecoin_data['amount_selling']}} SCP for ${{pumpthecoin_data['dollars_selling']}}, at an average of ${{pumpthecoin_data['average_selling']}}.</p>
         {%else%}
-        <p>To buy {{pumpthecoin_data['amount_selling']}} SCP, you need ${{pumpthecoin_data['dollars_selling']}}, at an average of ${{pumpthecoin_data['average_selling']}}.</p>
+        <p>If you sell {{pumpthecoin_data['amount_selling']}} SCP, you will get ${{pumpthecoin_data['dollars_selling']}}, at an average of ${{pumpthecoin_data['average_selling']}}.</p>
       {%endif%}
     {%endif%}
 {%endif%}
