@@ -43,9 +43,9 @@
         <hr style="width:100%;margin-left:0" class="text-center">
         {%if pumpthecoin_data['last_price']%}
         <p>There are no orders at the required price. The most expensive one asks for ${{pumpthecoin_data['last_price']}}.</p>
-        <p>You can buy {{pumpthecoin_data['amount']}} SCP for ${{pumpthecoin_data['dollars']}}.</p>
+        <p>You can buy {{pumpthecoin_data['amount']}} SCP for ${{pumpthecoin_data['dollars']}} at an average price of ${{pumpthecoin_data['average']}}.</p>
         {%else%}
-        <p>To raise the price to ${{pumpthecoin_data['price']}} you need to invest around ${{pumpthecoin_data['dollars']}} to buy {{pumpthecoin_data['amount']}} SCP.</p>
+        <p>To raise the price to ${{pumpthecoin_data['price']}} you need to invest around ${{pumpthecoin_data['dollars']}} to buy {{pumpthecoin_data['amount']}} SCP at an average price of ${{pumpthecoin_data['average']}}.</p>
         {%endif%}
     {%endif%}
     {%if pumpthecoin_data['amount_buying']%}

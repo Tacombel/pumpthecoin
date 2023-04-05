@@ -38,6 +38,7 @@ def pump_the_coin():
                                 pump_the_coin['last_price'] = ask[-1][4]
                         pump_the_coin['dollars'] = round(dollars)
                         pump_the_coin['amount'] = round(amount)
+                        pump_the_coin['average'] = round(dollars / amount, 4)
                 elif request.form['amountToBuy'] != '':
                         dollars = 0
                         amount = 0
