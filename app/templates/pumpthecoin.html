@@ -39,6 +39,9 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
         </form>
+    {%if pumpthecoin_data['error']%}
+        <p>ERROR: {{pumpthecoin_data['error']}}</p>
+    {%endif%}
     {%if pumpthecoin_data['amount']%}
         <hr style="width:100%;margin-left:0" class="text-center">
         {%if pumpthecoin_data['last_price']%}
@@ -56,9 +59,12 @@
         <p>To buy {{pumpthecoin_data['amount_buying']}} SCP, you need ${{pumpthecoin_data['dollars_buying']}}, at an average of ${{pumpthecoin_data['average_buying']}}.</p>
         {%endif%}
     {%endif%}
-    {%if pumpthecoin_data['amountToSell']%}
+    {%if pumpthecoin_data['amount_selling']%}
       <hr style="width:100%;margin-left:0" class="text-center">
-      <p>Are you sure of what you are doing?????</p>
-      <p>Seriously now, this will work soon</p>
+      {%if pumpthecoin_data['last_price_selling']%}
+        <p>There are not enough coins in the market. You can buy {{pumpthecoin_data['amount_selling']}} SCP for ${{pumpthecoin_data['dollars_selling']}}, at an average of ${{pumpthecoin_data['average_selling']}}.</p>
+        {%else%}
+        <p>To buy {{pumpthecoin_data['amount_selling']}} SCP, you need ${{pumpthecoin_data['dollars_selling']}}, at an average of ${{pumpthecoin_data['average_selling']}}.</p>
+      {%endif%}
     {%endif%}
 {%endif%}
