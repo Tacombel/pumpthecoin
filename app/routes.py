@@ -3,6 +3,10 @@ from app import app
 import pumpthecoin
 import spf_earnings
 
+@app.route('/uptimerobot', methods=['GET'])
+def uptimerobot():
+        return Response("{'Success'='True}", status=200, mimetype='application/json')
+
 @app.route('/', methods=['GET'])
 @app.route('/pumpthecoin', methods=['GET', 'POST'])
 def pump_the_coin():
@@ -11,12 +15,10 @@ def pump_the_coin():
         elif request.method == 'POST':
                 pump_the_coin = {}
                 combine = []
-                if 'SXBTC' in request.form.getlist('market') or 'TOBTC' in request.form.getlist('market'):
+                if 'SXBTC' or 'TOBTC' in request.form.getlist('market'):
                         if 'SXBTC' in request.form.getlist('market'):
-                                pump_the_coin[0] = 1
                                 combine.append(pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/BTC'))
                         if 'TOBTC' in request.form.getlist('market'):
-                                pump_the_coin[1] = 1
                                 combine.append(pumpthecoin.get_to_orders())
                         data = pumpthecoin.combine_data(combine)
                         ask = data[1]
@@ -83,34 +85,34 @@ def pump_the_coin():
                         pump_the_coin['error'] = 'You need to select at least one market'
                 return render_template('index.html', pumpthecoin_data=pump_the_coin)
 
-@app.route('/all', methods=['GET'])
-def all():
-        data = pumpthecoin.combine_data([pumpthecoin.get_to_orders(), pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/BTC'), pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/USDT'), pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/ETH'), pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/LTC')])
-        sell_orders = data[1][-10:]
-        buy_orders = data[0][0:10]
-        return render_template('index.html', data_to=[buy_orders, sell_orders])
-
-@app.route('/southxchange', methods=['GET'])
-def southxchange():
-        data = pumpthecoin.combine_data([pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/BTC'), pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/USDT'), pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/ETH'), pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/LTC')])
-        sell_orders = data[1][-10:]
-        buy_orders = data[0][0:10]
-        return render_template('index.html', data_to=[buy_orders, sell_orders])
-
-@app.route('/trade_ogre', methods=['GET'])
-def trade_ogre():
-        data = pumpthecoin.combine_data([pumpthecoin.get_to_orders()])
-        sell_orders = data[1][-10:]
-        buy_orders = data[0][0:10]
-        return render_template('index.html', data_to=[buy_orders, sell_orders])
+@app.route('/markets', methods=['GET', 'POST'])
+def markets():
+        if request.method == 'GET':
+                return render_template('index.html', markets=[0])
+        elif request.method == 'POST':
+                markets_data = {}
+                combine = []
+                if 'SXBTC' or 'TOBTC' or 'SXUSDT' or 'SXETH' or 'SXLTC' in request.form.getlist('market'):
+                        if 'SXBTC' in request.form.getlist('market'):
+                                combine.append(pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/BTC'))
+                        if 'SXUSDT' in request.form.getlist('market'):
+                                combine.append(pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/USDT'))
+                        if 'SXETH' in request.form.getlist('market'):
+                                combine.append(pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/ETH'))
+                        if 'SXLTC' in request.form.getlist('market'):
+                                combine.append(pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/LTC'))
+                        if 'TOBTC' in request.form.getlist('market'):
+                                combine.append(pumpthecoin.get_to_orders())
+                        data = pumpthecoin.combine_data(combine)
+                        markets_data['sell_orders'] = data[1][-10:]
+                        markets_data['buy_orders'] = data[0][0:10]
+                else:
+                        markets['error'] = 'You need to select at least one market'
+                return render_template('index.html', markets=markets_data)
 
 @app.route('/stats/to', methods=['GET'])
 def stats_to():
         return render_template('index.html', grouped_data = pumpthecoin.group_to_orders())
-
-@app.route('/uptimerobot', methods=['GET'])
-def uptimerobot():
-        return Response("{'Success'='True}", status=200, mimetype='application/json')
 
 @app.route('/spf_earnings', methods=['GET', 'POST'])
 def spfearnings():

@@ -1,0 +1,96 @@
+{%if markets%}
+<h2>Her you can list the orders from different books together.</h2>
+<p>Select the book(s) you want to consider</p>
+<form action="/markets" method="POST">
+<div class="row g-3">
+    <div class="form-check col-auto">
+    <input class="form-check-input" type="checkbox" value="SXBTC" name="market">
+    <label class="form-check-label" for="market">
+      SX-BTC
+    </label>
+  </div>
+  <div class="form-check col-auto">
+    <input class="form-check-input" type="checkbox" value="SXUSDT" name="market">
+    <label class="form-check-label" for="market">
+      SX-USDT
+    </label>
+  </div>
+  <div class="form-check col-auto">
+    <input class="form-check-input" type="checkbox" value="SXETH" name="market">
+    <label class="form-check-label" for="market">
+      SX-ETH
+    </label>
+  </div>
+  <div class="form-check col-auto">
+    <input class="form-check-input" type="checkbox" value="SXLTC" name="market">
+    <label class="form-check-label" for="market">
+      SX-LTC
+    </label>
+  </div>
+  <div class="form-check col-auto">
+    <input class="form-check-input" type="checkbox" value="TOBTC" name="market">
+    <label class="form-check-label" for="market">
+      TO-BTC
+    </label>
+  </div>
+<div class="col-auto">
+  <button type="submit" class="btn btn-primary">Submit</button>
+</div>
+</div>
+</form>
+{%if markets['error']%}
+<p>ERROR: {{markets['error']}}</p>
+{%elif markets['sell_orders']%}
+        <hr style="width:100%;margin-left:0" class="text-center">
+        <h3>SELL ORDERS</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Market</th>
+                    <th scope="col">Book</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Price ($)</th>
+                    <th scope="col">Value</th>
+                </tr>
+            </thead>
+            <tbody>    
+                    {%for i in markets['sell_orders']%}
+                <tr>
+                    <td>{{i[0]}}</td>
+                    <td>{{i[1]}}</td>
+                    <td>{{"%.2f"|format(i[2])}}</td>
+                    <td>{{i[3]}}</td>
+                    <td>${{"%.4f"|format(i[4])}}</td>
+                    <td>${{"%.2f"|format(i[5])}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+        <h3>BUY ORDERS</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Market</th>
+                    <th scope="col">Book</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Price ($)</th>
+                    <th scope="col">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for i in markets['buy_orders']%}
+                <tr>
+                    <td>{{i[0]}}</td>
+                    <td>{{i[1]}}</td>
+                    <td>{{"%.2f"|format(i[2])}}</td>
+                    <td>{{i[3]}}</td>
+                    <td>${{"%.4f"|format(i[4])}}</td>
+                    <td>${{"%.2f"|format(i[5])}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+{%endif%}
+{%endif%}
