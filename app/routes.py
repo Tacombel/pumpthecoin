@@ -2,8 +2,6 @@ from flask import render_template, Response, request
 from app import app
 import pumpthecoin
 import spf_earnings
-import logging
-
 
 @app.route('/', methods=['GET'])
 @app.route('/pumpthecoin', methods=['GET', 'POST'])
