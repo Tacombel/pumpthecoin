@@ -67,11 +67,9 @@ def pump_the_coin():
                                 order = 1
                                 for e in bid:
                                         if amount + e[2] < float(request.form['amountToSell']):
-                                                print(e)
                                                 dollars += e[5]
                                                 amount += e[2]
                                         else:
-                                                print(e)
                                                 rest = float(request.form['amountToSell']) - amount
                                                 amount += rest
                                                 dollars += rest * e[4]
