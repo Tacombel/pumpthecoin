@@ -15,7 +15,7 @@ def pump_the_coin():
         elif request.method == 'POST':
                 pump_the_coin = {}
                 combine = []
-                if 'SXBTC' or 'TOBTC' in request.form.getlist('market'):
+                if 'SXBTC' in request.form.getlist('market') or 'TOBTC' in request.form.getlist('market'):
                         if 'SXBTC' in request.form.getlist('market'):
                                 combine.append(pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/BTC'))
                         if 'TOBTC' in request.form.getlist('market'):
@@ -92,7 +92,7 @@ def markets():
         elif request.method == 'POST':
                 markets_data = {}
                 combine = []
-                if 'SXBTC' or 'TOBTC' or 'SXUSDT' or 'SXETH' or 'SXLTC' in request.form.getlist('market'):
+                if 'SXBTC' in request.form.getlist('market') or 'TOBTC' in request.form.getlist('market') or 'SXUSDT' in request.form.getlist('market') or 'SXETH' in request.form.getlist('market') or 'SXLTC' in request.form.getlist('market') in request.form.getlist('market'):
                         if 'SXBTC' in request.form.getlist('market'):
                                 combine.append(pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/BTC'))
                         if 'SXUSDT' in request.form.getlist('market'):
@@ -107,7 +107,7 @@ def markets():
                         markets_data['sell_orders'] = data[1][-10:]
                         markets_data['buy_orders'] = data[0][0:10]
                 else:
-                        markets['error'] = 'You need to select at least one market'
+                        markets_data['error'] = 'You need to select at least one market'
                 return render_template('index.html', markets=markets_data)
 
 @app.route('/stats/to', methods=['GET'])
