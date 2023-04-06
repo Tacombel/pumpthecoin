@@ -81,6 +81,8 @@ def pump_the_coin():
                                         pump_the_coin['amount_selling'] = round(amount)
                                 pump_the_coin['dollars_selling'] = round(dollars)
                                 pump_the_coin['average_selling'] = round(dollars / float(request.form['amountToSell']), 2)
+                        else:
+                                pump_the_coin['error'] = 'You need to input data'        
                 else:
                         pump_the_coin['error'] = 'You need to select at least one market'
                 return render_template('index.html', pumpthecoin_data=pump_the_coin)
