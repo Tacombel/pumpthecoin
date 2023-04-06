@@ -1,0 +1,33 @@
+{%if spf_data%}
+<h3>SPF potential earnings</h3>
+<p>{{spf_data[0]}} spf will produce ${{spf_data[3]}} every {{spf_data[1]}} month with {{spf_data[2]}}TB of data stored
+    on the network</p>
+<form action="/spf_earnings" method="POST">
+    <div class="row g-3">
+        <div class="col-auto">
+            <label for="SPFamount" class="col-form-label">SPF amount</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="SPFamount" class="form-control" placeholder={{spf_data[0]}}>
+        </div>
+        <div class="col-auto">
+            <label for="numberOfMonths" class="col-form-label">Number of months</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="numberOfMonths" class="form-control" placeholder={{spf_data[1]}}>
+        </div>
+        <div class="col-auto">
+            <label for="data_stored" class="col-form-label">Data stored in TB</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="dataStored" class="form-control" placeholder={{spf_data[2]}}>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
+
+Disclaimer: This info is only informative and in no way advice to buy or sell the coin. The results are aproximated and
+strongly depend on the amount of data in the network.
+{%endif%}

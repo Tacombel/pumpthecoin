@@ -1,70 +1,95 @@
-{%if pumpthecoin_data%} 
-        <h3>Welcome to Pump the Coin</h3>
-        <p>With the help of this little app, you will be able to know how much you do need to take the price of scp to a value, how much it will cost to buy some coins or how much you will get selling them.</p>
-        <p>So select the book(s) you want to consider</p>
-        <form action="/pumpthecoin" method="POST">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="SXBTC" name="market">
-            <label class="form-check-label" for="market">
-              SX-BTC
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="TOBTC" name="market">
-            <label class="form-check-label" for="market">
-              TO-BTC
-            </label>
-          </div>
-          <hr style="width:100%;margin-left:0" class="text-center">
-          <div class="col-auto">
-            <label for="Price" class="col-form-label">Target price</label>
+{%if pumpthecoin_data%}
+  <div class="row">
+    <h3>Welcome to Pump the Coin</h3>
+  </div>
+  <div class="row">
+    <p>With the help of this little app, you will be able to know how much you do need to take the price of scp to a
+      value, how much it will cost to buy some coins or how much you will get selling them.</p>
+  </div>
+  <div class="row">
+    <p>So select the book(s) you want to consider</p>
+  </div>
+  <div class="row">
+    <form action="/pumpthecoin" method="POST">
+      <div class="row">
+        <div class="form-check col-auto">
+          <input class="form-check-input" type="checkbox" value="SXBTC" name="market">
+          <label class="form-check-label" for="market">
+            SX-BTC
+          </label>
         </div>
-        <div class="col-auto">
-            <input type="text" name="Price" class="form-control">
+        <div class="form-check col-auto">
+          <input class="form-check-input" type="checkbox" value="TOBTC" name="market">
+          <label class="form-check-label" for="market">
+            TO-BTC
+          </label>
         </div>
-        <div class="col-auto">
-            <label for="amountToBuy" class="col-form-label">or number of SCP to buy</label>
-        </div>
-        <div class="col-auto">
-            <input type="text" name="amountToBuy" class="form-control">
-        </div>
-        <div class="col-auto">
-            <label for="amountToSell" class="col-form-label">or number of SCP to sell</label>
-        </div>
-        <div class="col-auto">
-            <input type="text" name="amountToSell" class="form-control">
-        </div>
-          <hr style="width:100%;margin-left:0" class="text-center">
-          <div class="col-auto">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-        </form>
-    {%if pumpthecoin_data['error']%}
-        <p>ERROR: {{pumpthecoin_data['error']}}</p>
-    {%endif%}
-    {%if pumpthecoin_data['amount']%}
-        <hr style="width:100%;margin-left:0" class="text-center">
-        {%if pumpthecoin_data['last_price']%}
-        <p>There are no orders at the required price. The most expensive one asks for ${{pumpthecoin_data['last_price']}}.</p>
-        <p>You can buy {{pumpthecoin_data['amount']}} SCP for ${{pumpthecoin_data['dollars']}} at an average price of ${{pumpthecoin_data['average']}}.</p>
-        {%else%}
-        <p>To raise the price to ${{pumpthecoin_data['price']}} you need to invest around ${{pumpthecoin_data['dollars']}} to buy {{pumpthecoin_data['amount']}} SCP at an average price of ${{pumpthecoin_data['average']}}.</p>
-        {%endif%}
-    {%endif%}
-    {%if pumpthecoin_data['amount_buying']%}
-        <hr style="width:100%;margin-left:0" class="text-center">    
-        {%if pumpthecoin_data['last_price_buying']%}
-        <p>There are not enough coins in the market. You can buy {{pumpthecoin_data['amount_buying']}} SCP for ${{pumpthecoin_data['dollars_buying']}}, at an average of ${{pumpthecoin_data['average_buying']}}.</p>
-        {%else%}
-        <p>To buy {{pumpthecoin_data['amount_buying']}} SCP, you need ${{pumpthecoin_data['dollars_buying']}}, at an average of ${{pumpthecoin_data['average_buying']}}.</p>
-        {%endif%}
-    {%endif%}
-    {%if pumpthecoin_data['amount_selling']%}
+      </div>
       <hr style="width:100%;margin-left:0" class="text-center">
-      {%if pumpthecoin_data['last_price_selling']%}
-        <p>There are not enough coins in the market. You can buy {{pumpthecoin_data['amount_selling']}} SCP for ${{pumpthecoin_data['dollars_selling']}}, at an average of ${{pumpthecoin_data['average_selling']}}.</p>
-        {%else%}
-        <p>If you sell {{pumpthecoin_data['amount_selling']}} SCP, you will get ${{pumpthecoin_data['dollars_selling']}}, at an average of ${{pumpthecoin_data['average_selling']}}.</p>
-      {%endif%}
-    {%endif%}
-{%endif%}
+      <div class="row">
+        <div class="col-2">
+          <label for="Price" class="col-form-label">Target price</label>
+        </div>
+        <div class="col-auto">
+          <input type="text" name="Price" class="form-control">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-2">
+          <label for="amountToBuy" class="col-form-label">or number of SCP to buy</label>
+        </div>
+        <div class="col-auto">
+          <input type="text" name="amountToBuy" class="form-control">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-2">
+          <label for="amountToSell" class="col-form-label">or number of SCP to sell</label>
+        </div>
+        <div class="col-auto">
+          <input type="text" name="amountToSell" class="form-control">
+        </div>
+      </div>
+  </div>
+  <hr style="width:100%;margin-left:0" class="text-center">
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+  </form>
+  {%if pumpthecoin_data['error']%}
+  <div class="row">
+    <p>ERROR: {{pumpthecoin_data['error']}}</p>
+  </div>
+  {%endif%}
+  {%if pumpthecoin_data['amount']%}
+  <hr style="width:100%;margin-left:0" class="text-center">
+  {%if pumpthecoin_data['last_price']%}
+  <p>There are no orders at the required price. The most expensive one asks for ${{pumpthecoin_data['last_price']}}.</p>
+  <p>You can buy {{pumpthecoin_data['amount']}} SCP for ${{pumpthecoin_data['dollars']}} at an average price of
+    ${{pumpthecoin_data['average']}}.</p>
+  {%else%}
+  <p>To raise the price to ${{pumpthecoin_data['price']}} you need to invest around ${{pumpthecoin_data['dollars']}} to
+    buy {{pumpthecoin_data['amount']}} SCP at an average price of ${{pumpthecoin_data['average']}}.</p>
+  {%endif%}
+  {%endif%}
+  {%if pumpthecoin_data['amount_buying']%}
+  <hr style="width:100%;margin-left:0" class="text-center">
+  {%if pumpthecoin_data['last_price_buying']%}
+  <p>There are not enough coins in the market. You can buy {{pumpthecoin_data['amount_buying']}} SCP for
+    ${{pumpthecoin_data['dollars_buying']}}, at an average of ${{pumpthecoin_data['average_buying']}}.</p>
+  {%else%}
+  <p>To buy {{pumpthecoin_data['amount_buying']}} SCP, you need ${{pumpthecoin_data['dollars_buying']}}, at an average
+    of ${{pumpthecoin_data['average_buying']}}.</p>
+  {%endif%}
+  {%endif%}
+  {%if pumpthecoin_data['amount_selling']%}
+  <hr style="width:100%;margin-left:0" class="text-center">
+  {%if pumpthecoin_data['last_price_selling']%}
+  <p>There are not enough bids in the market. You could sell {{pumpthecoin_data['amount_selling']}} SCP for
+    ${{pumpthecoin_data['dollars_selling']}}, at an average of ${{pumpthecoin_data['average_selling']}}.</p>
+  {%else%}
+  <p>If you sell {{pumpthecoin_data['amount_selling']}} SCP, you will get ${{pumpthecoin_data['dollars_selling']}}, at
+    an average of ${{pumpthecoin_data['average_selling']}}.</p>
+  {%endif%}
+  {%endif%}
+  {%endif%}

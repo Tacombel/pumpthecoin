@@ -1,179 +1,44 @@
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QJHMXC6J53"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QJHMXC6J53"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'G-QJHMXC6J53');
-</script>
+        gtag('config', 'G-QJHMXC6J53');
+    </script>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 
 <body>
     <title>Pump the Coin!!!</title>
     <div class="container-fluid">
         {%include 'navbar.html'%}
-        
+
         {%include 'pumpthecoin.html'%}
 
         {%include 'markets.html'%}
-        
-        {%if data %}
-        <p>Bitcoin is now at ${{data[0]}}</p>
-        <p>If I want to pump scp to {{"$%.2f"|format(target_price)}} then:</p>
-        <p></p>
-        <p>I will have to buy all sell orders in the BTC book up to {{"%.9f"|format(data[1])}} btc</p>
-        <p>I need {{"%.2f"|format(data[2])}} btc or, in dollars, {{"$%.2f"|format(data[2]*data[0])}} plus commmissions</p>
-        <p>I will end having {{"%.0f"|format(data[3])}} coins at an average price of {{"$%.2f"|format(data[2]*data[0]/data[3])}}</p>
-        {%endif%}
-        {%if data_global%}
-        <p>Data from Southxchange API. Showing agregated data from the four available books: BTC, USDT, LTC and ETH.</p>
-        <h3>SELL ORDERS</h3>
-        <p>There are a total of {{"%.0f"|format(data_global["units_in_sellorders_total"])}} coins (${{"%.2f"|format(data_global["units_in_sellorders_total"] * data_global["price_spc_usd"])}} at current price) in sell orders. This is {{"%.2f"|format(data_global["units_in_sellorders_total"] / data_global["total_coins"] * 100)}}% of the current coin in circulation.</p>
-        <p>To avoid distortion from orders with prices well above the rest, we will discard all remaining orders if the price of the order being considered is {{data_global["discard_factor"]}} times above the current average.</p>
-        <p>The price at which we stopped considering orders is ${{data_global["last_price_considered"]}}.</p>
-        <p>We will consider {{"%.2f"|format(data_global["units_in_sell_orders"] / data_global["units_in_sellorders_total"] * 100)}}% of the coins in the exchange. That is {{"%.2f"|format(data_global["units_in_sell_orders"])}} coins in sell orders.</p>
-        <p>The total asking price is ${{"%.2f"|format(data_global["$_in_sellorders"])}} and the average is ${{"%.2f"|format(data_global["$_in_sellorders"] / data_global["units_in_sell_orders"])}}/scp</p>
-        <table>
-            <tr>
-                <th style="width:10%">Book</th>
-                <th style="width:10%">Amount</th>
-                <th style="width:10%">Price</th>
-                <th style="width:10%">Value</th>
-            </tr>
-        {%for i in data_global["sell_first_orders"]%}
-        <tr>
-            <td>{{i["Book"]}}</td>
-            <td>{{"%.0f"|format(i["Amount"])}}</td>
-            <td>${{"%.4f"|format(i["Price"])}}</td>
-            <td>${{"%.2f"|format(i["Value"])}}</td>
-        </tr>
-        {%endfor%}
-        </table>
-        <p>Spread: {{"%.2f"|format(data_global["gap"])}}%</p>
-        <h3>BUY ORDERS</h3>
-        <table>
-            <tr>
-                <th style="width:10%">Book</th>
-                <th style="width:10%">Amount</th>
-                <th style="width:10%">Price</th>
-                <th style="width:10%">Value</th>
-            </tr>
-        {%for i in data_global["buy_first_orders"]%}
-        <tr>
-            <td>{{i["Book"]}}</td>
-            <td>{{"%.0f"|format(i["Amount"])}}</td>
-            <td>${{"%.4f"|format(i["Price"])}}</td>
-            <td>${{"%.2f"|format(i["Value"])}}</td>
-        </tr>
-        {%endfor%}
-        </table>
-        <p>To asses liquidity, we will consider only buy orders while the average is above {{data_global["buy_limit"]}}% of the current price.</p>
-        <p>There are {{"%.0f"|format(data_global["units_in_buyorders"])}} coins in this buy orders. This is {{"%.2f"|format(data_global["units_in_buyorders"] / data_global["total_coins"] * 100)}}% of the current coin in circulation. The total asking price is ${{"%.2f"|format(data_global["$_in_buyorders"])}}, at an average price of ${{"%.2f"|format(data_global["$_in_buyorders"] / data_global["units_in_buyorders"])}}/scp. The price of the last order was ${{"%.4f"|format(data_global["last_buy_price"])}}/scp.</p>
-        <hr style="width:100%;text-align:left;margin-left:0">
-        <p>Now, if you want to know what it would take to pump the price <a href="/pump/7.3">click here</a> and modify the 7.3 in the address bar to anything you like</p>
-        {% endif %}
-
-        {%if data_to%}
-        <h3>SELL ORDERS</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Market</th>
-                    <th scope="col">Book</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Price ($)</th>
-                    <th scope="col">Value</th>
-                </tr>
-            </thead>
-            <tbody>    
-                    {%for i in data_to[1]%}
-                <tr>
-                    <td>{{i[0]}}</td>
-                    <td>{{i[1]}}</td>
-                    <td>{{"%.2f"|format(i[2])}}</td>
-                    <td>{{i[3]}}</td>
-                    <td>${{"%.4f"|format(i[4])}}</td>
-                    <td>${{"%.2f"|format(i[5])}}</td>
-                </tr>
-                {%endfor%}
-            </tbody>
-        </table>
-        <h3>BUY ORDERS</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Market</th>
-                    <th scope="col">Book</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Price ($)</th>
-                    <th scope="col">Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                {%for i in data_to[0]%}
-                <tr>
-                    <td>{{i[0]}}</td>
-                    <td>{{i[1]}}</td>
-                    <td>{{"%.2f"|format(i[2])}}</td>
-                    <td>{{i[3]}}</td>
-                    <td>${{"%.4f"|format(i[4])}}</td>
-                    <td>${{"%.2f"|format(i[5])}}</td>
-                </tr>
-                {%endfor%}
-            </tbody>
-        </table>
-        {%endif%}
 
         {%include 'stats.html'%}
 
-        {%if spf_data%}
-            <h2>SPF potential earnings</h2>
-            <p>{{spf_data[0]}} spf will produce ${{spf_data[3]}} every {{spf_data[1]}} month with {{spf_data[2]}}TB of data stored on the network</p>
-            <form action="/spf_earnings" method="POST">
-                <div class="row g-3">
-                    <div class="col-auto">
-                        <label for="SPFamount" class="col-form-label">SPF amount</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="text" name="SPFamount" class="form-control" placeholder={{spf_data[0]}}>
-                    </div>
-                    <div class="col-auto">
-                        <label for="numberOfMonths" class="col-form-label">Number of months</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="text" name="numberOfMonths" class="form-control" placeholder={{spf_data[1]}}>
-                    </div>
-                    <div class="col-auto">
-                        <label for="data_stored" class="col-form-label">Data stored in TB</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="text" name="dataStored" class="form-control" placeholder={{spf_data[2]}}>
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </div>
-            </form>
-        
-        Disclaimer: This info is only informative and in no way advice to buy or sell the coin. The results are aproximated and strongly depend on the amount of data in the network.
-        {%endif%}
+        {%include 'spf.html'%}
+
     </div>
     <!-- Footer -->
     <footer class="page-footer font-small blue pt-4">
         <!-- Copyright -->
         <hr style="width:100%;margin-left:0" class="text-center">
-        <div class="footer-copyright text-center py-3">v0.11.6     ©2023 tacombel@gmail.com</div>
+        <div class="footer-copyright text-center py-3">v0.11.6 ©2023 tacombel@gmail.com</div>
         <!-- Copyright -->
     </footer>
     <!-- Footer -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
 </body>
