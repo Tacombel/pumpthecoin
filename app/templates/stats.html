@@ -1,7 +1,7 @@
 {%if grouped_data%}
 <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
 <div class="row">
-    <h3 class="text-center">Trade Ogre ask orders</h3>
+    <h3 class="text-center">Trade Ogre ask orders: {{grouped_data[3]}} SCP</h3>
 </div>
 <div class="row">
     <canvas id="chart2" height="50%"></canvas>
@@ -48,7 +48,7 @@
     </script>
 </div>
 <div class="row">
-    <h3 class="text-center">Trade Ogre bid orders</h3>
+    <h3 class="text-center">Trade Ogre bid orders: {{grouped_data[2]}} SCP</h3>
 </div>
 <div class="row">
     <canvas id="chart1" height="50%"></canvas>
