@@ -203,8 +203,7 @@ def group_to_orders():
     total_in_bids =  int(round(sum(group.values()), 0))
     bids_grouped = []
     for key, value in group.items():
-        text = f'From {int(key) * 100} to {int(key) * 100 + 99}: {value:.0f} SCP'
-        bids_grouped.append(text)
+        bids_grouped.append([f'From {int(key) * 100} to {int(key) * 100 + 99}', round(value, 0)])
     group = {}
     for order in orders[1]:
         key = str(math.trunc(float(order[3]) * 1E6))
@@ -215,8 +214,7 @@ def group_to_orders():
     total_in_asks = int(round(sum(group.values()), 0))
     asks_grouped = []
     for key, value in group.items():
-        text = f'From {int(key) * 100} to {int(key) * 100 + 99}: {value:.0f} SCP'
-        asks_grouped.append(text)
+        asks_grouped.append([f'From {int(key) * 100} to {int(key) * 100 + 99}', round(value, 0)])
     return([bids_grouped, asks_grouped, total_in_bids, total_in_asks])
 
 def main():

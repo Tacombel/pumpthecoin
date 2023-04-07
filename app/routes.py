@@ -114,7 +114,7 @@ def markets():
 
 @app.route('/stats/to', methods=['GET'])
 def stats_to():
-        return render_template('index.html', grouped_data = pumpthecoin.group_to_orders())
+        return render_template('index.html', max_b=250000, max_a=50000, grouped_data = pumpthecoin.group_to_orders())
 
 @app.route('/spf_earnings', methods=['GET', 'POST'])
 def spfearnings():
