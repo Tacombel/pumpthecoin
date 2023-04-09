@@ -1,4 +1,4 @@
-tacombel/pumpthecoin:v0.12.1
+tacombel/pumpthecoin:v0.12.2
 
 -----------------------------------------------
 
