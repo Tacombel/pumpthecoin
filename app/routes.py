@@ -140,7 +140,7 @@ def stats():
                                 bids_grouped.append([f'From {int(key) * 100} to {int(key) * 100 + 99}', round(value, 0)])
                         bids_grouped.reverse()
                         max_b = max(bids_grouped, key=itemgetter(1))[1]
-                        max_b = math.ceil(max_b / 50000) * 50000
+                        max_b = math.ceil(max_b / 10000) * 10000
                         group = {}
                         for order in data[1]:
                                 key = str(math.trunc(float(order[3]) * 1E6))
@@ -156,7 +156,7 @@ def stats():
                         if max_col !='':
                                 del asks_grouped[int(max_col):] 
                         max_a = max(asks_grouped, key=itemgetter(1))[1]
-                        max_a = math.ceil(max_a / 50000) * 50000
+                        max_a = math.ceil(max_a / 10000) * 10000
                 else:
                        return render_template('index.html', grouped_data={'error':'Select at least one market'}) 
                 return render_template('index.html', max_b=max_b, max_a=max_a, grouped_data = [bids_grouped, asks_grouped, total_in_bids, total_in_asks])
