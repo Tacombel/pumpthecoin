@@ -35,6 +35,10 @@
     </form>
 </div>
 {%if grouped_data|length>1 %}
+<hr style="width:100%;margin-left:0" class="text-center">
+<div class="row">
+    <h2 class="text-center">{{title}}</h3>
+</div>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
 <div class="row">
     <h3 class="text-center">All ask orders: {{grouped_data[3]}} SCP</h3>

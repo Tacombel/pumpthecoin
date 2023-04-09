@@ -126,6 +126,12 @@ def stats():
                         if 'TOBTC' in request.form.getlist('market'):
                                 combine.append(pumpthecoin.get_to_orders())
                         data = pumpthecoin.combine_data(combine)
+                        if 'SXBTC' in request.form.getlist('market') and 'TOBTC' in request.form.getlist('market'):
+                                title=f'Data for SX-BTC and TO-BTC'
+                        elif 'SXBTC' in request.form.getlist('market'):
+                                title=f'Data for SX-BTC'
+                        elif 'TOBTC' in request.form.getlist('market'):
+                                title=f'Data for TO-BTC'
                         max_col = request.form['max_col']
                         group = {}
                         for order in data[0]:
@@ -159,7 +165,7 @@ def stats():
                         max_a = math.ceil(max_a / 10000) * 10000
                 else:
                        return render_template('index.html', grouped_data={'error':'Select at least one market'}) 
-                return render_template('index.html', max_b=max_b, max_a=max_a, grouped_data = [bids_grouped, asks_grouped, total_in_bids, total_in_asks])
+                return render_template('index.html', title=title, max_b=max_b, max_a=max_a, grouped_data = [bids_grouped, asks_grouped, total_in_bids, total_in_asks])
 
 @app.route('/spf_earnings', methods=['GET', 'POST'])
 def spfearnings():
