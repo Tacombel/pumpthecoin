@@ -2,6 +2,11 @@
 <div class="row">
     <p>Select the book(s) you want to consider</p>
 </div>
+{%if grouped_data['error']%}
+<div class="row">
+    <p>{{grouped_data['error']}}</p>
+</div>
+{%endif%}
 <div class="row">
     <form action="/stats" method="POST">
         <div class="row">
@@ -18,6 +23,12 @@
                 </label>
             </div>
             <div class="col-auto">
+                <label for="max_col" class="col-form-label">Max number of columns</label>
+              </div>
+              <div class="col-auto">
+                <input type="text" name="max_col" class="form-control">
+              </div>
+            <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
@@ -26,7 +37,7 @@
 {%if grouped_data|length>1 %}
 <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
 <div class="row">
-    <h3 class="text-center">Ask orders: {{grouped_data[3]}} SCP</h3>
+    <h3 class="text-center">All ask orders: {{grouped_data[3]}} SCP</h3>
 </div>
 <div class="row">
     <canvas id="chart2" height="50%"></canvas>
@@ -73,7 +84,7 @@
     </script>
 </div>
 <div class="row">
-    <h3 class="text-center">Bid orders: {{grouped_data[2]}} SCP</h3>
+    <h3 class="text-center">All bid orders: {{grouped_data[2]}} SCP</h3>
 </div>
 <div class="row">
     <canvas id="chart1" height="50%"></canvas>

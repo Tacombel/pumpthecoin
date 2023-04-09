@@ -125,35 +125,40 @@ def stats():
                                 combine.append(pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/BTC'))
                         if 'TOBTC' in request.form.getlist('market'):
                                 combine.append(pumpthecoin.get_to_orders())
-                data = pumpthecoin.combine_data(combine)
-                group = {}
-                for order in data[0]:
-                        key = str(math.trunc(float(order[3]) * 1E6))
-                        if key in group:
-                                group[key] = group[key] + float(order[2])
-                        else:
-                                group[key] = float(order[2])
-                total_in_bids =  int(round(sum(group.values()), 0))
-                bids_grouped = []
-                for key, value in group.items():
-                        bids_grouped.append([f'From {int(key) * 100} to {int(key) * 100 + 99}', round(value, 0)])
-                bids_grouped.reverse()
-                max_b = max(bids_grouped, key=itemgetter(1))[1]
-                max_b = math.ceil(max_b / 50000) * 50000
-                group = {}
-                for order in data[1]:
-                        key = str(math.trunc(float(order[3]) * 1E6))
-                        if key in group:
-                                group[key] = group[key] + float(order[2])
-                        else:
-                                group[key] = float(order[2])
-                total_in_asks = int(round(sum(group.values()), 0))
-                asks_grouped = []
-                for key, value in group.items():
-                        asks_grouped.append([f'From {int(key) * 100} to {int(key) * 100 + 99}', round(value, 0)])
-                asks_grouped.reverse()
-                max_a = max(asks_grouped, key=itemgetter(1))[1]
-                max_a = math.ceil(max_a / 50000) * 50000
+                        data = pumpthecoin.combine_data(combine)
+                        max_col = request.form['max_col']
+                        group = {}
+                        for order in data[0]:
+                                key = str(math.trunc(float(order[3]) * 1E6))
+                                if key in group:
+                                        group[key] = group[key] + float(order[2])
+                                else:
+                                        group[key] = float(order[2])
+                        total_in_bids =  int(round(sum(group.values()), 0))
+                        bids_grouped = []
+                        for key, value in group.items():
+                                bids_grouped.append([f'From {int(key) * 100} to {int(key) * 100 + 99}', round(value, 0)])
+                        bids_grouped.reverse()
+                        max_b = max(bids_grouped, key=itemgetter(1))[1]
+                        max_b = math.ceil(max_b / 50000) * 50000
+                        group = {}
+                        for order in data[1]:
+                                key = str(math.trunc(float(order[3]) * 1E6))
+                                if key in group:
+                                        group[key] = group[key] + float(order[2])
+                                else:
+                                        group[key] = float(order[2])
+                        total_in_asks = int(round(sum(group.values()), 0))
+                        asks_grouped = []
+                        for key, value in group.items():
+                                asks_grouped.append([f'From {int(key) * 100} to {int(key) * 100 + 99}', round(value, 0)])
+                        asks_grouped.reverse()
+                        if max_col !='':
+                                del asks_grouped[int(max_col):] 
+                        max_a = max(asks_grouped, key=itemgetter(1))[1]
+                        max_a = math.ceil(max_a / 50000) * 50000
+                else:
+                       return render_template('index.html', grouped_data={'error':'Select at least one market'}) 
                 return render_template('index.html', max_b=max_b, max_a=max_a, grouped_data = [bids_grouped, asks_grouped, total_in_bids, total_in_asks])
 
 @app.route('/spf_earnings', methods=['GET', 'POST'])
