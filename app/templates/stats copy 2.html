@@ -1,32 +1,7 @@
 {%if grouped_data%}
-<div class="row">
-    <p>Select the book(s) you want to consider</p>
-</div>
-<div class="row">
-    <form action="/stats" method="POST">
-        <div class="row">
-            <div class="form-check col-auto">
-                <input class="form-check-input" type="checkbox" value="SXBTC" name="market">
-                <label class="form-check-label" for="market">
-                    SX-BTC
-                </label>
-            </div>
-            <div class="form-check col-auto">
-                <input class="form-check-input" type="checkbox" value="TOBTC" name="market">
-                <label class="form-check-label" for="market">
-                    TO-BTC
-                </label>
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-    </form>
-</div>
-{%if grouped_data|length>1 %}
 <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
 <div class="row">
-    <h3 class="text-center">Ask orders: {{grouped_data[3]}} SCP</h3>
+    <h3 class="text-center">Trade Ogre ask orders: {{grouped_data[3]}} SCP</h3>
 </div>
 <div class="row">
     <canvas id="chart2" height="50%"></canvas>
@@ -73,7 +48,7 @@
     </script>
 </div>
 <div class="row">
-    <h3 class="text-center">Bid orders: {{grouped_data[2]}} SCP</h3>
+    <h3 class="text-center">Trade Ogre bid orders: {{grouped_data[2]}} SCP</h3>
 </div>
 <div class="row">
     <canvas id="chart1" height="50%"></canvas>
@@ -119,5 +94,4 @@
         );
     </script>
 </div>
-{%endif%}
 {%endif%}

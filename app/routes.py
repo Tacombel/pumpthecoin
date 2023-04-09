@@ -2,6 +2,8 @@ from flask import render_template, Response, request
 from app import app
 import pumpthecoin
 import spf_earnings
+import math
+from operator import itemgetter
 
 @app.route('/uptimerobot', methods=['GET'])
 def uptimerobot():
@@ -112,9 +114,47 @@ def markets():
                         markets_data['error'] = 'You need to select at least one market'
                 return render_template('index.html', markets=markets_data)
 
-@app.route('/stats/to', methods=['GET'])
-def stats_to():
-        return render_template('index.html', max_b=250000, max_a=50000, grouped_data = pumpthecoin.group_to_orders())
+@app.route('/stats', methods=['GET', 'POST'])
+def stats():
+        if request.method == 'GET':
+                return render_template('index.html', grouped_data=[0])
+        elif request.method == 'POST':
+                combine = []
+                if 'SXBTC' in request.form.getlist('market') or 'TOBTC' in request.form.getlist('market'):
+                        if 'SXBTC' in request.form.getlist('market'):
+                                combine.append(pumpthecoin.get_sx_orders('https://www.southxchange.com/api/book/SCP/BTC'))
+                        if 'TOBTC' in request.form.getlist('market'):
+                                combine.append(pumpthecoin.get_to_orders())
+                data = pumpthecoin.combine_data(combine)
+                group = {}
+                for order in data[0]:
+                        key = str(math.trunc(float(order[3]) * 1E6))
+                        if key in group:
+                                group[key] = group[key] + float(order[2])
+                        else:
+                                group[key] = float(order[2])
+                total_in_bids =  int(round(sum(group.values()), 0))
+                bids_grouped = []
+                for key, value in group.items():
+                        bids_grouped.append([f'From {int(key) * 100} to {int(key) * 100 + 99}', round(value, 0)])
+                bids_grouped.reverse()
+                max_b = max(bids_grouped, key=itemgetter(1))[1]
+                max_b = math.ceil(max_b / 50000) * 50000
+                group = {}
+                for order in data[1]:
+                        key = str(math.trunc(float(order[3]) * 1E6))
+                        if key in group:
+                                group[key] = group[key] + float(order[2])
+                        else:
+                                group[key] = float(order[2])
+                total_in_asks = int(round(sum(group.values()), 0))
+                asks_grouped = []
+                for key, value in group.items():
+                        asks_grouped.append([f'From {int(key) * 100} to {int(key) * 100 + 99}', round(value, 0)])
+                asks_grouped.reverse()
+                max_a = max(asks_grouped, key=itemgetter(1))[1]
+                max_a = math.ceil(max_a / 50000) * 50000
+                return render_template('index.html', max_b=max_b, max_a=max_a, grouped_data = [bids_grouped, asks_grouped, total_in_bids, total_in_asks])
 
 @app.route('/spf_earnings', methods=['GET', 'POST'])
 def spfearnings():
