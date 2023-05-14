@@ -1,6 +1,7 @@
 from urllib.request import Request, urlopen
 from urllib.error import URLError
 import json
+from time import time
 
 start_height = 0
 
@@ -41,7 +42,7 @@ def add_entry(nickname, hash):
     check_if_exists = get_data(hash)
     if not check_if_exists["success"]:
         return {'success': False, 'error': 'You can´t add a hash until there is at least one transaction'}
-    entries.append([nickname, hash])
+    entries.append([nickname, hash, time()])
     with open('./contest/entries.txt', 'w+') as f:
         for e in entries:
             f.write(json.dumps(e))
