@@ -40,7 +40,7 @@ def add_entry(nickname, hash):
         pass
     check_if_exists = get_data(hash)
     if not check_if_exists["success"]:
-        return {'success': False, 'error': 'hash not found in explorer'}
+        return {'success': False, 'error': 'You can´t add a hash until there is at least one transaction'}
     entries.append([nickname, hash])
     with open('entries.txt', 'w+') as f:
         for e in entries:
@@ -56,7 +56,7 @@ def get_balances():
                 line = json.loads(line)
                 entries.append(line)
     except FileNotFoundError:
-        return {'success': False, 'error': 'There are no entries on the database'}
+        return {'success': False, 'error': 'There are no entries on the database', 'lines':[['', '', '']]}
     results_lines = []
     for e in entries:
         data = get_data(e[1])

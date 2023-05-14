@@ -4,6 +4,7 @@ import pumpthecoin
 import spf_earnings
 import math
 from operator import itemgetter
+from contest import get_balances, add_entry
 
 @app.route('/uptimerobot', methods=['GET'])
 def uptimerobot():
@@ -185,3 +186,21 @@ def spfearnings():
                 else:
                         dataStored = float(request.form['dataStored'])
                 return render_template('index.html', spf_data = spf_earnings.earnings(SPFamount, numberOfMonths, dataStored))
+        
+@app.route('/contest', methods=['GET', 'POST'])
+def contest():
+        if request.method == 'GET':
+                contest_data = {}
+                contest_data["lines"] = get_balances()["lines"]
+                return render_template('index.html', contest_data = contest_data)
+        elif request.method == 'POST':
+                contest_data = {}
+                if request.form["Nickname"] == '' or request.form["hash"] == '':
+                        contest_data["error"] = 'You need a Nickname and a hash!!!!'
+                else:
+                       entry = add_entry(request.form["Nickname"], request.form["hash"])
+                       if not entry["success"]:
+                               contest_data["error"] = entry["error"]
+                contest_data["lines"] = get_balances()["lines"]
+                return render_template('index.html', contest_data = contest_data)
+                
