@@ -1,7 +1,27 @@
 from urllib.request import Request, urlopen
 from urllib.error import URLError
 import json
+import sqlite3
 from time import time
+
+try:
+    with open('./contest/app.db', 'x') as f:
+        pass
+except FileExistsError:
+    pass
+conn = sqlite3.connect("./contest/app.db")
+try:
+    conn.execute("""create table users (
+    codigo integer primary key autoincrement,
+    nickname text,
+    hash text,
+    UNIQUE(hash)
+    )""")
+    print(f'Tabla usuarios creada')
+    conn.close()
+except sqlite3.OperationalError:
+    print(f'La tabla usuarios ya existe')
+    conn.close()
 
 start_height = 0
 
@@ -28,42 +48,29 @@ def get_data(hash):
             return {'success':False, 'error':'The server couldn\'t fulfill the request', 'reason':e.code}
 
 def add_entry(nickname, hash):
-    entries = []
-    try:
-        with open('./contest/entries.txt', 'r') as f:
-            for line in f:
-                line = json.loads(line)
-                entries.append(line)
-            for entry in entries:
-                if hash in entry:
-                    return {'success': False, 'error': 'hash already in database'}
-    except FileNotFoundError:
-        pass
     check_if_exists = get_data(hash)
     if not check_if_exists["success"]:
         return {'success': False, 'error': 'You can´t add a hash until there is at least one transaction'}
-    entries.append([nickname, hash, time()])
-    with open('./contest/entries.txt', 'w+') as f:
-        for e in entries:
-            f.write(json.dumps(e))
-            f.write('\n')
-    return {'success':True, 'message':'Entry added to the database'}
+    conn = sqlite3.connect("./contest/app.db")
+    try:
+        conn.execute("INSERT INTO users(nickname, hash) values (?,?)", (nickname, hash))
+        conn.commit()
+        conn.close()
+        return {'success':True, 'message':'Entry added to the database'}
+    except sqlite3.IntegrityError:
+        return {'success': False, 'error': 'This hash already exists in the database'}
+    
 
 def get_balances():
     print(f'Updating balances')
-    entries = []
-    try:
-        with open('./contest/entries.txt', 'r') as f:
-            for line in f:
-                line = json.loads(line)
-                entries.append(line)
-    except FileNotFoundError:
-        return {'success': False, 'error': 'There are no entries on the database', 'lines':[['', '', '']]}
+    conn = sqlite3.connect("./contest/app.db")
+    cursor = conn.execute("SELECT nickname, hash from users")
     results_lines = []
-    for e in entries:
+    for e in cursor:
         data = get_data(e[1])
         if data["success"]:
             results_lines.append([e[0], e[1], '{:.3f}'.format(data["totalScp"] / 1e27)])
+    conn.close()
     results_lines.sort(key=lambda a: a[2], reverse=True)
     results_lines.append(time())
     with open('./contest/result_lines.txt', 'w+') as f:
