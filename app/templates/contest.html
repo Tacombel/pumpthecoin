@@ -22,6 +22,11 @@
 {%if contest_data["error"]%}
 <p>Error: {{contest_data["error"]}}</p>
 {%endif%}
+{%if contest_data["message"]%}
+<p>Message: {{contest_data["message"]}}</p>
+{%endif%}
+<hr style="width:100%;margin-left:0" class="text-center">
+To avoid overloading the explorer, this table updates once an hour.
 <table class="table">
     <thead>
         <tr>

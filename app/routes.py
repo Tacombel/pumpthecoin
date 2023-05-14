@@ -4,7 +4,26 @@ import pumpthecoin
 import spf_earnings
 import math
 from operator import itemgetter
+from time import time
 from contest import get_balances, add_entry
+from apscheduler.schedulers.background import BackgroundScheduler
+import json
+
+#Initializing the results file
+try:
+        with open('./contest/result_lines.txt', 'r') as f:
+                for line in f:
+                        saved_time = line
+                if time() >float(saved_time) + 3600:
+                        get_balances()
+                else:
+                        print(f'File not to old')
+except FileNotFoundError:
+        get_balances()
+
+sched = BackgroundScheduler(daemon=True)
+sched.add_job(get_balances,'interval',minutes=60)
+sched.start()
 
 @app.route('/uptimerobot', methods=['GET'])
 def uptimerobot():
@@ -189,9 +208,18 @@ def spfearnings():
         
 @app.route('/contest', methods=['GET', 'POST'])
 def contest():
+        lines = []
+        try:
+                with open('./contest/result_lines.txt', 'r') as f:
+                        for line in f:
+                                line = json.loads(line)
+                                lines.append(line)
+                lines.pop()
+        except FileNotFoundError:
+                pass
         if request.method == 'GET':
                 contest_data = {}
-                contest_data["lines"] = get_balances()["lines"]
+                contest_data["lines"] = lines
                 return render_template('index.html', contest_data = contest_data)
         elif request.method == 'POST':
                 contest_data = {}
@@ -201,6 +229,8 @@ def contest():
                        entry = add_entry(request.form["Nickname"], request.form["hash"])
                        if not entry["success"]:
                                contest_data["error"] = entry["error"]
-                contest_data["lines"] = get_balances()["lines"]
+                       else:
+                               contest_data["message"] = entry["message"]
+                contest_data["lines"] = lines
                 return render_template('index.html', contest_data = contest_data)
                 
