@@ -18,10 +18,25 @@ try:
     UNIQUE(hash)
     )""")
     print(f'Tabla usuarios creada')
-    conn.close()
 except sqlite3.OperationalError:
-    print(f'La tabla usuarios ya existe')
-    conn.close()
+    print(f'La tabla users ya existe')
+try:
+    conn.execute("""create table balance (
+    hash TEXT primary key,
+    amount REAL
+    )""")
+    print(f'Tabla balance creada')
+except sqlite3.OperationalError:
+    print(f'La tabla balance ya existe')
+try:
+    conn.execute("""create table variables (
+    name TEXT primary key,
+    value REAL
+    )""")
+    print(f'Tabla variables creada')
+except sqlite3.OperationalError:
+    print(f'La tabla variables ya existe')
+conn.close()
 
 start_height = 0
 
