@@ -1,4 +1,5 @@
-tacombel/pumpthecoin:v0.12.6
+tacombel/pumpthecoin:v0.12.6 contest
+experimental version for contest
 
 -----------------------------------------------
 
