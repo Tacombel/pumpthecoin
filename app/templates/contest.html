@@ -1,0 +1,43 @@
+{%if contest_data%}
+<h3>Contest Ranking</h3>
+<form action="/contest" method="POST">
+    <div class="row g-3">
+        <div class="col-auto">
+            <label for="Nickname" class="col-form-label">Nickname</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="Nickname" class="form-control">
+        </div>
+        <div class="col-auto">
+            <label for="hash" class="col-form-label">hash</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="hash" class="form-control">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
+{%if contest_data["error"]%}
+<p>Error: {{contest_data["error"]}}</p>
+{%endif%}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nickname</th>
+            <th scope="col">Addres</th>
+            <th scope="col">Amount</th>
+        </tr>
+    </thead>
+    <tbody>    
+            {%for i in contest_data["lines"]%}
+        <tr>
+            <td>{{i[0]}}</td>
+            <td>{{i[1]}}</td>
+            <td>{{i[2]}}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+{%endif%}
