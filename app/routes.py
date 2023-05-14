@@ -13,8 +13,8 @@ import json
 try:
         with open('./contest/result_lines.txt', 'r') as f:
                 for line in f:
-                        saved_time = line
-                if time() >float(saved_time) + 3600:
+                        time_saved = line
+                if time() >float(time_saved) + 3600:
                         get_balances()
                 else:
                         print(f'File not to old')
