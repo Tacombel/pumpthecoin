@@ -16,7 +16,6 @@ RUN chmod +x boot.sh
 ENV FLASK_APP pumpthecoin-flask
 
 RUN chown -R microservicios:microservicios ./
-RUN chown -R microservicios:microservicios /home/pumpthecoin/contest
 USER microservicios
 
 EXPOSE 5000

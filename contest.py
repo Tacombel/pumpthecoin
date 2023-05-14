@@ -50,6 +50,7 @@ def add_entry(nickname, hash):
     return {'success':True, 'message':'Entry added to the database'}
 
 def get_balances():
+    print(f'Updating balances')
     entries = []
     try:
         with open('./contest/entries.txt', 'r') as f:
@@ -64,12 +65,14 @@ def get_balances():
         if data["success"]:
             results_lines.append([e[0], e[1], '{:.3f}'.format(data["totalScp"] / 1e27)])
     results_lines.sort(key=lambda a: a[2], reverse=True)
-    return {'success': True, 'lines': results_lines}
+    results_lines.append(time())
+    with open('./contest/result_lines.txt', 'w+') as f:
+        for e in results_lines:
+            f.write(json.dumps(e))
+            f.write('\n')
 
 def main():
-     #test_add_entry()
-     for e in get_balances()["lines"]:
-         print(e)
+    pass
 
 if __name__ == "__main__":
     main()
