@@ -29,7 +29,7 @@ def get_data(hash):
 def add_entry(nickname, hash):
     entries = []
     try:
-        with open('entries.txt', 'r') as f:
+        with open('./contest/entries.txt', 'r') as f:
             for line in f:
                 line = json.loads(line)
                 entries.append(line)
@@ -42,7 +42,7 @@ def add_entry(nickname, hash):
     if not check_if_exists["success"]:
         return {'success': False, 'error': 'You can´t add a hash until there is at least one transaction'}
     entries.append([nickname, hash])
-    with open('entries.txt', 'w+') as f:
+    with open('./contest/entries.txt', 'w+') as f:
         for e in entries:
             f.write(json.dumps(e))
             f.write('\n')
@@ -51,7 +51,7 @@ def add_entry(nickname, hash):
 def get_balances():
     entries = []
     try:
-        with open('entries.txt', 'r') as f:
+        with open('./contest/entries.txt', 'r') as f:
             for line in f:
                 line = json.loads(line)
                 entries.append(line)
@@ -64,14 +64,6 @@ def get_balances():
             results_lines.append([e[0], e[1], '{:.3f}'.format(data["totalScp"] / 1e27)])
     results_lines.sort(key=lambda a: a[2], reverse=True)
     return {'success': True, 'lines': results_lines}
-
-def test_add_entry():
-    example_hashes = []
-    with open('data.txt', 'r') as f:
-            for line in f:
-                example_hashes.append(line)
-    for e in example_hashes:
-         print(add_entry('Tacom', e))
 
 def main():
      #test_add_entry()

@@ -3,6 +3,7 @@ RUN useradd microservicios
 
 WORKDIR /home/pumpthecoin
 
+RUN mkdir /home/pumpthecoin/contest
 COPY requirements.txt requirements.txt
 RUN python -m venv venv
 RUN venv/bin/pip install -r requirements.txt
@@ -15,6 +16,7 @@ RUN chmod +x boot.sh
 ENV FLASK_APP pumpthecoin-flask
 
 RUN chown -R microservicios:microservicios ./
+RUN chown -R microservicios:microservicios ./contest
 USER microservicios
 
 EXPOSE 5000
