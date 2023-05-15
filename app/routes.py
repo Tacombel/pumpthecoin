@@ -208,15 +208,7 @@ def spfearnings():
         
 @app.route('/contest', methods=['GET', 'POST'])
 def contest():
-        lines = []
-        try:
-                with open('./contest/result_lines.txt', 'r') as f:
-                        for line in f:
-                                line = json.loads(line)
-                                lines.append(line)
-                lines.pop()
-        except FileNotFoundError:
-                pass
+        lines = get_balances()
         if request.method == 'GET':
                 contest_data = {}
                 contest_data["lines"] = lines
