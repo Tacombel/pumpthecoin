@@ -208,10 +208,9 @@ def spfearnings():
         
 @app.route('/contest', methods=['GET', 'POST'])
 def contest():
-        lines = get_balances()
         if request.method == 'GET':
                 contest_data = {}
-                contest_data["lines"] = lines
+                contest_data["lines"] = get_balances()
                 return render_template('index.html', contest_data = contest_data)
         elif request.method == 'POST':
                 contest_data = {}
@@ -223,6 +222,6 @@ def contest():
                                contest_data["error"] = entry["error"]
                        else:
                                contest_data["message"] = entry["message"]
-                contest_data["lines"] = lines
+                contest_data["lines"] = get_balances()
                 return render_template('index.html', contest_data = contest_data)
                 
