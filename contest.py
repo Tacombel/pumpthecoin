@@ -13,6 +13,7 @@ conn = sqlite3.connect("./contest/app.db")
 try:
     conn.execute("""create table users (
     codigo integer primary key autoincrement,
+    discord_user text,
     nickname text,
     hash text,
     UNIQUE(hash)
@@ -38,7 +39,7 @@ except sqlite3.OperationalError:
     print(f'La tabla variables ya existe')
 conn.close()
 
-start_height = 0
+start_height = 238650
 
 def get_data(hash):
     url = 'https://explorer.scpri.me/navigator-api/hash/' + hash
@@ -62,13 +63,13 @@ def get_data(hash):
         elif hasattr(e, 'code'):
             return {'success':False, 'error':'The server couldn\'t fulfill the request', 'reason':e.code}
 
-def add_entry(nickname, hash):
+def add_entry(discord_user, nickname, hash):
     check_if_exists = get_data(hash)
     if not check_if_exists["success"]:
         return {'success': False, 'error': 'You can´t add a hash until there is at least one transaction'}
     conn = sqlite3.connect("./contest/app.db")
     try:
-        conn.execute("INSERT INTO users(nickname, hash) values (?,?)", (nickname, hash))
+        conn.execute("INSERT INTO users(discord_user, nickname, hash) values (?,?,?)", (discord_user, nickname, hash))
         conn.commit()
         conn.close()
         return {'success':True, 'message':'Entry added to the database'}

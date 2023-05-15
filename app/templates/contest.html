@@ -1,7 +1,13 @@
 {%if contest_data%}
-<h3>Contest Ranking</h3>
+<h3>BAGBUILDER Competition</h3>
 <form action="/contest" method="POST">
     <div class="row g-3">
+        <div class="col-auto">
+            <label for="discord_user" class="col-form-label">Discord User</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="discord_user" class="form-control">
+        </div>
         <div class="col-auto">
             <label for="Nickname" class="col-form-label">Nickname</label>
         </div>
