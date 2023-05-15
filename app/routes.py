@@ -223,10 +223,10 @@ def contest():
                 return render_template('index.html', contest_data = contest_data)
         elif request.method == 'POST':
                 contest_data = {}
-                if request.form["Nickname"] == '' or request.form["hash"] == '':
-                        contest_data["error"] = 'You need a Nickname and a hash!!!!'
+                if request.form["Nickname"] == '' or request.form["hash"] == '' or request.form["discord_user"] == '':
+                        contest_data["error"] = 'You need a Discord user, a nickname and a hash!!!!'
                 else:
-                       entry = add_entry(request.form["Nickname"], request.form["hash"])
+                       entry = add_entry(request.form["discord_user"], request.form["Nickname"], request.form["hash"])
                        if not entry["success"]:
                                contest_data["error"] = entry["error"]
                        else:
