@@ -40,7 +40,7 @@ except sqlite3.OperationalError:
     print(f'La tabla variables ya existe')
 conn.close()
 
-start_height = 0
+start_height = 238650
 
 def get_data(hash):
     url = 'https://explorer.scpri.me/navigator-api/hash/' + hash
@@ -76,3 +76,11 @@ def add_entry(discord_user, nickname, hash):
         return {'success':True, 'message':'Entry added to the database'}
     except sqlite3.IntegrityError:
         return {'success': False, 'error': 'This hash already exists in the database'}
+
+def get_balances():
+    conn = sqlite3.connect('./contest/app.db')
+    cursor = conn.execute("SELECT nickname, hash, amount from balance ORDER BY amount DESC")
+    lines = []
+    for e in cursor:
+        lines.append(e)
+    return lines
