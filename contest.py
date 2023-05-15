@@ -24,6 +24,7 @@ except sqlite3.OperationalError:
 try:
     conn.execute("""create table balance (
     hash TEXT primary key,
+    nickname TEXT,
     amount REAL
     )""")
     print(f'Tabla balance creada')
@@ -39,7 +40,7 @@ except sqlite3.OperationalError:
     print(f'La tabla variables ya existe')
 conn.close()
 
-start_height = 238650
+start_height = 0
 
 def get_data(hash):
     url = 'https://explorer.scpri.me/navigator-api/hash/' + hash
@@ -75,27 +76,3 @@ def add_entry(discord_user, nickname, hash):
         return {'success':True, 'message':'Entry added to the database'}
     except sqlite3.IntegrityError:
         return {'success': False, 'error': 'This hash already exists in the database'}
-    
-
-def get_balances():
-    print(f'Updating balances')
-    conn = sqlite3.connect("./contest/app.db")
-    cursor = conn.execute("SELECT nickname, hash from users")
-    results_lines = []
-    for e in cursor:
-        data = get_data(e[1])
-        if data["success"]:
-            results_lines.append([e[0], e[1], '{:.3f}'.format(data["totalScp"] / 1e27)])
-    conn.close()
-    results_lines.sort(key=lambda a: a[2], reverse=True)
-    results_lines.append(time())
-    with open('./contest/result_lines.txt', 'w+') as f:
-        for e in results_lines:
-            f.write(json.dumps(e))
-            f.write('\n')
-
-def main():
-    pass
-
-if __name__ == "__main__":
-    main()
