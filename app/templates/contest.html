@@ -36,17 +36,19 @@ To avoid overloading the explorer, this table updates once an hour.
 <table class="table">
     <thead>
         <tr>
+            <th scope="col">#</th>
             <th scope="col">Nickname</th>
-            <th scope="col">Addres</th>
             <th scope="col">Amount</th>
+            <th scope="col">Addres</th>
         </tr>
     </thead>
     <tbody>    
             {%for i in contest_data["lines"]%}
         <tr>
+            <td>{{loop.index}}</td>
             <td>{{i[0]}}</td>
+            <td class="text-end">{{i[2]}} SCP</td>
             <td>{{i[1]}}</td>
-            <td>{{i[2]}}</td>
         </tr>
         {%endfor%}
     </tbody>
