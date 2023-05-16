@@ -2,7 +2,7 @@ from subprocess import Popen
 from apscheduler.schedulers.background import BackgroundScheduler
 import sqlite3
 
-bind = "0.0.0.0:5000"
+bind = "0.0.0.0:5200"
 workers = 3
 timeout = 120
 access_log_format = '%(h)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s" "%({X-Forwarded-For}i)s" "%({X-Forwarded-Port}i)s" "%({X-Forwarded-Proto}i)s"  "%({X-Amzn-Trace-Id}i)s"'
