@@ -2,7 +2,6 @@ from urllib.request import Request, urlopen
 from urllib.error import URLError
 import json
 import sqlite3
-from time import time
 
 start_height = 238650
 
