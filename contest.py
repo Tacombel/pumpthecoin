@@ -81,7 +81,7 @@ def add_entry(discord_user, nickname, hash):
             conn.execute("REPLACE INTO balance(nickname, hash, amount) values (?,?,?)", (nickname, hash, '{:.3f}'.format(data["totalScp"] / 1e27)))
             conn.commit()
         conn.close()
-
+        print(f'{discord_user} added to the database')
         return {'success':True, 'message':'Entry added to the database'}
     except sqlite3.IntegrityError:
         return {'success': False, 'error': 'This hash already exists in the database'}
