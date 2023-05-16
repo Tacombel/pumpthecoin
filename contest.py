@@ -51,6 +51,10 @@ def get_data(hash):
         data = data.decode("utf-8")
         data = json.loads(data)
         if len(data) == 0:
+            print(f'len(data)=0')
+            return {'success':False, 'error':'There are no transactions on this address'}
+        elif not data[1]["last100Transactions"]:
+            print(f'not data[1]["last100Transactions"]')
             return {'success':False, 'error':'There are no transactions on this address'}
         else:
             totalScp = 0
