@@ -4,42 +4,6 @@ import json
 import sqlite3
 from time import time
 
-try:
-    with open('./contest/app.db', 'x') as f:
-        pass
-except FileExistsError:
-    pass
-conn = sqlite3.connect("./contest/app.db")
-try:
-    conn.execute("""create table users (
-    codigo integer primary key autoincrement,
-    discord_user text,
-    nickname text,
-    hash text,
-    UNIQUE(hash)
-    )""")
-    print(f'Tabla usuarios creada')
-except sqlite3.OperationalError:
-    print(f'La tabla users ya existe')
-try:
-    conn.execute("""create table balance (
-    hash TEXT primary key,
-    nickname TEXT,
-    amount REAL
-    )""")
-    print(f'Tabla balance creada')
-except sqlite3.OperationalError:
-    print(f'La tabla balance ya existe')
-try:
-    conn.execute("""create table variables (
-    name TEXT primary key,
-    value REAL
-    )""")
-    print(f'Tabla variables creada')
-except sqlite3.OperationalError:
-    print(f'La tabla variables ya existe')
-conn.close()
-
 start_height = 238650
 
 def get_data(hash):
