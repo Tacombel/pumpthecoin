@@ -14,6 +14,7 @@ COPY boot.sh config.py .flaskenv pumpthecoin.py pumpthecoin-flask.py spf_earning
 RUN chmod +x boot.sh
 
 ENV FLASK_APP pumpthecoin-flask
+ENV PYTHONUNBUFFERED 1
 
 RUN chown -R microservicios:microservicios ./
 USER microservicios
