@@ -21,7 +21,7 @@ def update():
 sched = None
 
 def on_starting(server):
-    print(f'Initialazing the database...')
+    print(f'Initializing the database...')
     try:
         with open('./contest/app.db', 'x') as f:
             pass
