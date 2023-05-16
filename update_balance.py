@@ -1,6 +1,5 @@
 import sqlite3
 from contest import get_data
-from time import time
 
 def get_balances():
     print(f'Updating balances')
