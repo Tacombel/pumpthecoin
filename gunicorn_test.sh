@@ -1,1 +1,1 @@
-gunicorn --config gunicorn_config.py pumpthecoin-flask:app
+gunicorn --config gunicorn.conf.py pumpthecoin-flask:app

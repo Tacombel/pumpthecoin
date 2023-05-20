@@ -33,6 +33,7 @@ def on_starting(server):
         codigo integer primary key autoincrement,
         discord_user text,
         nickname text,
+        comments text,
         hash text,
         UNIQUE(hash)
         )""")
