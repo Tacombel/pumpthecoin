@@ -51,8 +51,11 @@ def add_entry(discord_user, nickname, hash):
 
 def get_balances():
     conn = sqlite3.connect('./contest/app.db')
-    cursor = conn.execute("SELECT nickname, hash, amount from balance ORDER BY amount DESC")
+    sql = 'SELECT users.nickname, users.hash, amount, comments from users INNER JOIN balance ON users.hash = balance.hash'
+    cursor = conn.execute(sql)
     lines = []
     for e in cursor:
         lines.append(e)
     return lines
+
+sql = 'SELECT discord_user, users.nickname, users.hash, amount from users INNER JOIN balance ON users.hash = balance.hash;'
