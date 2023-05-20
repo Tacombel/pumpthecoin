@@ -16,7 +16,7 @@ def get_balances():
 def write_csv():
     conn = sqlite3.connect("./contest/app.db")
     cur = conn.cursor()
-    sql = 'SELECT discord_user, users.nickname, users.hash, amount from users INNER JOIN balance ON users.hash = balance.hash;'
+    sql = 'SELECT discord_user, users.nickname, users.hash, amount, comments from users INNER JOIN balance ON users.hash = balance.hash;'
     cur.execute(sql)
     result = cur.fetchall()
     
