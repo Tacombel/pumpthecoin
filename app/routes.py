@@ -6,6 +6,7 @@ import math
 from operator import itemgetter
 from time import time
 from contest import get_balances, add_entry
+from send_telegram import send_telegram_msg
 
 
 @app.route('/uptimerobot', methods=['GET'])
@@ -189,22 +190,33 @@ def spfearnings():
                         dataStored = float(request.form['dataStored'])
                 return render_template('index.html', spf_data = spf_earnings.earnings(SPFamount, numberOfMonths, dataStored))
         
-@app.route('/contest', methods=['GET', 'POST'])
+@app.route('/contest', methods=['GET'])
 def contest():
-        if request.method == 'GET':
-                contest_data = {}
-                contest_data["lines"] = get_balances()
-                return render_template('index.html', contest_data = contest_data)
-        elif request.method == 'POST':
-                contest_data = {}
-                if request.form["Nickname"] == '' or request.form["hash"] == '' or request.form["discord_user"] == '':
-                        contest_data["error"] = 'You need a Discord user, a nickname and a hash!!!!'
-                else:
-                       entry = add_entry(request.form["discord_user"], request.form["Nickname"], request.form["hash"])
-                       if not entry["success"]:
-                               contest_data["error"] = entry["error"]
-                       else:
-                               contest_data["message"] = entry["message"]
-                contest_data["lines"] = get_balances()
-                return render_template('index.html', contest_data = contest_data)
+        contest_data = {}
+        contest_data["lines"] = get_balances()
+        return render_template('index.html', contest_data = contest_data)
                 
+@app.route('/contest/add', methods=['POST'])
+def contest_add():
+        contest_data = {}
+        if request.form["Nickname"] == '' or request.form["hash"] == '' or request.form["discord_user"] == '':
+                contest_data["error"] = 'You need a Discord user, a nickname and a hash!!!!'
+        else:
+                entry = add_entry(request.form["discord_user"], request.form["Nickname"], request.form["hash"])
+                if not entry["success"]:
+                        contest_data["error"] = entry["error"]
+                else:
+                        contest_data["message"] = entry["message"]
+        contest_data["lines"] = get_balances()
+        return render_template('index.html', contest_data = contest_data)
+
+@app.route('/contest/candle', methods=['POST'])
+def contest_candle():
+        contest_data = {}
+        if request.form["discord_user"] == '' or request.form["date"] == '' or request.form["time"] == '':
+                contest_data["error"] = 'You need a Discord user, a date and a time!!!!'
+        else:
+                send_telegram_msg(f'{request.form["discord_user"]} reported a candle the {request.form["date"]} at {request.form["time"]}')
+                contest_data["message"] = str(f'{request.form["discord_user"]}, you reported succesfully')
+        contest_data["lines"] = get_balances()
+        return render_template('index.html', contest_data = contest_data)

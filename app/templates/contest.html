@@ -1,6 +1,7 @@
 {%if contest_data%}
 <h3>BAGBUILDER Competition</h3>
-<form action="/contest" method="POST">
+<p>If you want to participate, introduce your data</p>
+<form action="/contest/add" method="POST">
     <div class="row g-3">
         <div class="col-auto">
             <label for="discord_user" class="col-form-label">Discord User</label>
@@ -19,6 +20,33 @@
         </div>
         <div class="col-auto">
             <input type="text" name="hash" class="form-control">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
+<hr style="width:100%;margin-left:0" class="text-center">
+If you are participating in the candle challenge, report the time when you bought!
+<form action="/contest/candle" method="POST">
+    <div class="row g-3">
+        <div class="col-auto">
+            <label for="discord_user" class="col-form-label">Discord User</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="discord_user" class="form-control">
+        </div>
+        <div class="col-auto">
+            <label for="date" class="col-form-label">Date</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="date" class="form-control">
+        </div>
+        <div class="col-auto">
+            <label for="time" class="col-form-label">Time</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="time" class="form-control">
         </div>
         <div class="col-auto">
             <button type="submit" class="btn btn-primary">Submit</button>
