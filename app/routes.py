@@ -7,6 +7,7 @@ from operator import itemgetter
 from time import time
 from contest import get_balances, add_entry
 from send_telegram import send_telegram_msg
+import csv
 
 
 @app.route('/uptimerobot', methods=['GET'])
@@ -218,5 +219,10 @@ def contest_candle():
         else:
                 send_telegram_msg(f'{request.form["discord_user"]} reported a candle the {request.form["date"]} at {request.form["time"]}')
                 contest_data["message"] = str(f'{request.form["discord_user"]}, you reported succesfully')
+                with open('./contest/candles.csv', mode='w') as csv_file:
+                        fieldnames = ['discord_user', 'date', 'time']
+                        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+                        writer.writeheader()
+                        writer.writerow({"discord_user": request.form["discord_user"], "date": request.form["date"], "time": request.form["time"]})
         contest_data["lines"] = get_balances()
         return render_template('index.html', contest_data = contest_data)
