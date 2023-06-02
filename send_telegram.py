@@ -3,9 +3,9 @@ import os
 
 def send_telegram_msg(message):
     bot_token = os.getenv('TELEGRAM_TOKEN')
-    chatID = os.getenv('USER_ID')
+    chat_ID = os.getenv('CHAT_ID')
     bot_message = message
-    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + chatID + '&parse_mode=html&text=' + bot_message
+    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + chat_ID + '&parse_mode=html&text=' + bot_message
     response = requests.get(send_text)
     return response.json()
 
