@@ -1,8 +1,8 @@
 # from ensurepip import bootstrap
 from flask import Flask
-from config import Config
+from dotenv import load_dotenv
 
 app = Flask(__name__)
-app.config.from_object(Config)
+load_dotenv()
 
 from app import routes

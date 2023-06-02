@@ -3,4 +3,4 @@ __pycache__
 app/__pycache__
 build.sh
 contest
-environment.sh
+.env
