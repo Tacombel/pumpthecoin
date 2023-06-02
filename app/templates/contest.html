@@ -56,11 +56,12 @@ If you are participating in the candle challenge, report the time when you bough
 <hr style="width:100%;margin-left:0" class="text-center">
 {%if contest_data["error"]%}
 <h5>Error: {{contest_data["error"]}}</h5>
+<hr style="width:100%;margin-left:0" class="text-center">
 {%endif%}
 {%if contest_data["message"]%}
 <h5>Message: {{contest_data["message"]}}</h5>
-{%endif%}
 <hr style="width:100%;margin-left:0" class="text-center">
+{%endif%}
 To avoid overloading the explorer, this table updates once an hour.
 <table class="table">
     <thead>
