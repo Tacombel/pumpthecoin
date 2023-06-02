@@ -5,10 +5,6 @@ import json
 import math
 import logging
 
-#logging.basicConfig(filename = 'filename.log', level=logging.<log_level>, format = '<message_structure>')
-logging.basicConfig(level=logging.DEBUG, format = f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
-
-
 coingecko_queue = [0, 0, 0, 0, 0]
 coingecko_timer = 60.0
 
