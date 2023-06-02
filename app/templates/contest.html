@@ -37,27 +37,28 @@ If you are participating in the candle challenge, report the time when you bough
             <input type="text" name="discord_user" class="form-control">
         </div>
         <div class="col-auto">
-            <label for="date" class="col-form-label">Date</label>
+            <label for="amount" class="col-form-label">Amount</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="amount" class="form-control">
+        </div>
+        <div class="col-auto">
+            <label for="date" class="col-form-label">Date and time</label>
         </div>
         <div class="col-auto">
             <input type="text" name="date" class="form-control">
-        </div>
-        <div class="col-auto">
-            <label for="time" class="col-form-label">Time</label>
-        </div>
-        <div class="col-auto">
-            <input type="text" name="time" class="form-control">
         </div>
         <div class="col-auto">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>
 </form>
+<hr style="width:100%;margin-left:0" class="text-center">
 {%if contest_data["error"]%}
-<p>Error: {{contest_data["error"]}}</p>
+<h5>Error: {{contest_data["error"]}}</h5>
 {%endif%}
 {%if contest_data["message"]%}
-<p>Message: {{contest_data["message"]}}</p>
+<h5>Message: {{contest_data["message"]}}</h5>
 {%endif%}
 <hr style="width:100%;margin-left:0" class="text-center">
 To avoid overloading the explorer, this table updates once an hour.
