@@ -9,9 +9,11 @@ LOGLEVEL = os.environ.get('LOGLEVEL', 'DEBUG').upper()
 logger = logging.getLogger(__name__)
 c_handler = logging.StreamHandler()
 c_handler.setLevel(LOGLEVEL)
-c_format = logging.Formatter('%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+c_format = logging.Formatter('%(asctime)s %(levelname)s %(name)s : %(message)s')
 c_handler.setFormatter(c_format)
 logger.addHandler(c_handler)
+logger.setLevel(LOGLEVEL)
+
 logger.info(f'LOGLEVEL: {LOGLEVEL}')
 
 start_height = 238650
