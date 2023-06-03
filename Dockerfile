@@ -3,6 +3,8 @@ RUN useradd microservicios
 
 WORKDIR /home/pumpthecoin
 
+RUN apt update
+RUN apt install -y nano
 RUN mkdir /home/pumpthecoin/contest
 COPY requirements.txt requirements.txt
 RUN python -m venv venv
