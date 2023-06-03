@@ -1,5 +1,5 @@
-tacombel/pumpthecoin:v0.12.6 contest
-experimental version for contest
+tacombel/pumpthecoin:v0.12.6c18
+experimental version for bagbuilder contest
 
 -----------------------------------------------
 
@@ -25,3 +25,23 @@ Mas abajo en el JSON sale
       }
 
 Supongo que tiene alguna relacion.
+
+-----------------------------------------------
+
+Estructura
+
+Uso .env para poner todas las environment
+
+Para que los módulos cargen las variables es necesario añadir load_dotenv()
+
+Para que las cargue cuando lanzo flask run lanzo la funcion en __init__.py
+
+Para probar con gunicorn está el gunicorn_test.sh
+
+La configuracion por defecto de gunicorn esta en gunicorn.conf.py junto con sus funciones. Aqui se ponen las funciones que no quiero que se ejecuten en cada worker.
+
+gunicorn no lee el dotenv, así que si se quiere cambiar el nivel de logging hacer export LOGINLEVEL=DEBUG
+
+Usar el directorio contest para guardar ficheros. El server hace copia de seguridad de todo lo que se ponga ahí
+
+Al lanzar el contenedor añadir como environment todas las de .env, excepto las tres de FLASK, La primera se declara al build el contenedor.
