@@ -11,6 +11,8 @@ def send_telegram_msg(message):
     bot_message = message
     logging.debug(f'bot_message: {bot_message}')
     send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + chat_ID + '&parse_mode=html&text=' + bot_message
+    # El signo # necesita ser substituido porque si no urllib corta la uri
+    send_text = send_text.replace('#', '%23')
     logging.debug(f'send_text: {send_text}')
     response = requests.get(send_text)
     logging.debug(f'response: {response}')

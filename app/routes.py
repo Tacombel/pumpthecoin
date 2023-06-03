@@ -219,7 +219,6 @@ def contest_candle():
                 contest_data["error"] = 'You need a Discord user, amount and a date!!!!'
         else:
                 msg = f'{request.form["discord_user"]} reported a candle of {request.form["amount"]} scp, the {request.form["date"]}'
-                msg = msg.replace("#", ":")
                 send_telegram_msg(msg)
                 contest_data["message"] = str(f'{request.form["discord_user"]}, you reported succesfully')
                 try:
