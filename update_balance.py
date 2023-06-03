@@ -1,9 +1,16 @@
 import sqlite3
 import csv
 from contest import get_data
+from dotenv import load_dotenv
+import os
+import logging
+
+load_dotenv()
+LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
+logging.basicConfig(level=LOGLEVEL, format = f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 def get_balances():
-    print(f'Updating balances')
+    logging.debug(f'Updating balances')
     conn = sqlite3.connect("./contest/app.db")
     cursor = conn.execute("SELECT nickname, hash from users")
     for e in cursor:
