@@ -1,8 +1,41 @@
 {%if contest_data%}
-<h3>BAGBUILDER Competition</h3>
-<p>If you want to participate, introduce your data</p>
+<h1 class="py-2">BAGBUILDER Competition</h3>
+<div class="container py-5">
+    <div class="pb-3 row">
+        <h4>Wanna earn some SPF-A? Here you'll have a great opportunity  so who do I have to kill how does this work? Let's see:</h3>
+    </div>
+    <div class="pb-3 row">
+        <h5>You have 1 month starting on May 15th at block 238650 to grab as much SCP as you can.  The 10 of you who buy more will get these cookies:</h4>
+    </div>
+    <div class="row">
+        <div class="col"><h5>1st:  40,000 SPF-A</h5></div>
+        <div class="col"><h5>6th:   4,000 SPF-A</h5></div>
+    </div>
+    <div class="row">
+        <div class="col"><h5>2nd:  20.000 SPF-A</h5></div>
+        <div class="col"><h5>7th:   2,000 SPF-A</h5></div>
+    </div>
+    <div class="row">
+        <div class="col"><h5>3rd:   10,000 SPF-A</h5></div>
+        <div class="col"><h5>8th:   1,750 SPF-A</h5></div>
+    </div>
+    <div class="row">
+        <div class="col"><h5>4th:   8,000 SPF-A</h5></div>
+        <div class="col"><h5>9th:   1,500 SPF-A</h5></div>
+    </div>
+    <div class="pb-3 row">
+        <div class="col"><h5>5th:   6,000 SPF-A</h5></div>
+        <div class="col"><h5>10th:  1,250 SPF-A</h5></div>
+    </div>
+    <div class="row">
+        <div class="d-grid gap-2">
+            <a class="btn btn-success" href="/contest/rules" role="button">Rules</a>
+          </div>
+    </div>
+</div>
+<h5 class="p-3">If you want to participate, introduce your data</h5>
 <form action="/contest/add" method="POST">
-    <div class="row g-3">
+    <div class="p-4 row g-3">
         <div class="col-auto">
             <label for="discord_user" class="col-form-label">Discord User</label>
         </div>
@@ -27,9 +60,9 @@
     </div>
 </form>
 <hr style="width:100%;margin-left:0" class="text-center">
-If you are participating in the candle challenge, report the time when you bought!
+<h5 class="p-3">If you are participating in the candle challenge, report the time when you bought!</h5>
 <form action="/contest/candle" method="POST">
-    <div class="row g-3">
+    <div class="p-4 row g-3">
         <div class="col-auto">
             <label for="discord_user" class="col-form-label">Discord User</label>
         </div>
@@ -55,15 +88,15 @@ If you are participating in the candle challenge, report the time when you bough
 </form>
 <hr style="width:100%;margin-left:0" class="text-center">
 {%if contest_data["error"]%}
-<h5>Error: {{contest_data["error"]}}</h5>
+<h5 class="p1">Error: {{contest_data["error"]}}</h5>
 <hr style="width:100%;margin-left:0" class="text-center">
 {%endif%}
 {%if contest_data["message"]%}
-<h5>Message: {{contest_data["message"]}}</h5>
+<h5 class="p-1">{{contest_data["message"]}}</h5>
 <hr style="width:100%;margin-left:0" class="text-center">
 {%endif%}
-To avoid overloading the explorer, this table updates once an hour.
-<table class="table">
+<h6 class="p-3">To avoid overloading the explorer, this table updates once an hour.</h6>
+<table class="p-5 table">
     <thead>
         <tr>
             <th scope="col">#</th>

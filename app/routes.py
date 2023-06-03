@@ -218,12 +218,25 @@ def contest_candle():
         if request.form["discord_user"] == '' or request.form["amount"] == '' or request.form["date"] == '':
                 contest_data["error"] = 'You need a Discord user, amount and a date!!!!'
         else:
-                send_telegram_msg(f'{request.form["discord_user"]} reported a candle of {request.form["amount"]} scp, the {request.form["date"]}')
+                msg = f'{request.form["discord_user"]} reported a candle of {request.form["amount"]} scp, the {request.form["date"]}'
+                msg = msg.replace("#", ":")
+                send_telegram_msg(msg)
                 contest_data["message"] = str(f'{request.form["discord_user"]}, you reported succesfully')
+                try:
+                        with open('./contest/candles.csv', mode='r') as csv_file:
+                                pass
+                except FileNotFoundError:
+                         with open('./contest/candles.csv', mode='w') as csv_file:
+                                fieldnames = ['discord_user', 'amount', 'date']
+                                writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+                                writer.writeheader()
                 with open('./contest/candles.csv', mode='a') as csv_file:
                         fieldnames = ['discord_user', 'amount', 'date']
                         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-                        writer.writeheader()
                         writer.writerow({"discord_user": request.form["discord_user"], "amount": request.form["amount"], "date": request.form["date"]})
         contest_data["lines"] = get_balances()
         return render_template('index.html', contest_data = contest_data)
+
+@app.route('/contest/rules', methods=['GET'])
+def contest_rules():
+        return render_template('rules.html')
