@@ -1,16 +1,20 @@
 import sqlite3
 import csv
 from contest import get_data
-from dotenv import load_dotenv
 import os
 import logging
 
-load_dotenv()
-LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
-logging.basicConfig(level=LOGLEVEL, format = f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+LOGLEVEL = os.environ.get('LOGLEVEL', 'DEBUG').upper()
+logger = logging.getLogger(__name__)
+c_handler = logging.StreamHandler()
+c_handler.setLevel(LOGLEVEL)
+c_format = logging.Formatter('%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+c_handler.setFormatter(c_format)
+logger.addHandler(c_handler)
+logger.info(f'LOGLEVEL: {LOGLEVEL}')
 
 def get_balances():
-    logging.debug(f'Updating balances')
+    logger.debug(f'Updating balances')
     conn = sqlite3.connect("./contest/app.db")
     cursor = conn.execute("SELECT nickname, hash from users")
     for e in cursor:
@@ -35,5 +39,7 @@ def write_csv():
             writer.writerow({'discord_user':row[0], 'nickname':row[1], 'hash':row[2], 'amount':row[3]})
 
 if __name__ == "__main__":
+    from dotenv import load_dotenv
+    load_dotenv()
     get_balances()
     write_csv()

@@ -2,6 +2,15 @@ import requests
 import os
 import logging
 
+LOGLEVEL = os.environ.get('LOGLEVEL', 'DEBUG').upper()
+logger = logging.getLogger(__name__)
+c_handler = logging.StreamHandler()
+c_handler.setLevel(LOGLEVEL)
+c_format = logging.Formatter('%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+c_handler.setFormatter(c_format)
+logger.addHandler(c_handler)
+logger.info(f'LOGLEVEL: {LOGLEVEL}')
+
 def send_telegram_msg(message):
     logging.debug(f'----------send_telegram_msg----------')
     bot_token = os.getenv('TELEGRAM_TOKEN')

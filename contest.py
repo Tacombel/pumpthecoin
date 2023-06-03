@@ -2,9 +2,19 @@ from urllib.request import Request, urlopen
 from urllib.error import URLError
 import json
 import sqlite3
+import logging
+import os
+
+LOGLEVEL = os.environ.get('LOGLEVEL', 'DEBUG').upper()
+logger = logging.getLogger(__name__)
+c_handler = logging.StreamHandler()
+c_handler.setLevel(LOGLEVEL)
+c_format = logging.Formatter('%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+c_handler.setFormatter(c_format)
+logger.addHandler(c_handler)
+logger.info(f'LOGLEVEL: {LOGLEVEL}')
 
 start_height = 238650
-
 def get_data(hash):
     url = 'https://explorer.scpri.me/navigator-api/hash/' + hash
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -14,10 +24,10 @@ def get_data(hash):
         data = data.decode("utf-8")
         data = json.loads(data)
         if len(data) == 0:
-            print(f'len(data)=0')
+            logger.info(f'len(data)=0')
             return {'success':False, 'error':'There are no transactions on this address'}
         elif not data[1]["last100Transactions"]:
-            print(f'not data[1]["last100Transactions"]')
+            logger.info(f'not data[1]["last100Transactions"]')
             return {'success':False, 'error':'There are no transactions on this address'}
         else:
             totalScp = 0
@@ -44,7 +54,7 @@ def add_entry(discord_user, nickname, hash):
             conn.execute("REPLACE INTO balance(nickname, hash, amount) values (?,?,?)", (nickname, hash, '{:.3f}'.format(data["totalScp"] / 1e27)))
             conn.commit()
         conn.close()
-        print(f'{discord_user} added to the database')
+        logger.info(f'{discord_user} added to the database')
         return {'success':True, 'message':'Entry added to the database'}
     except sqlite3.IntegrityError:
         return {'success': False, 'error': 'This hash already exists in the database'}

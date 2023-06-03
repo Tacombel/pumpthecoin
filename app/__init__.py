@@ -4,11 +4,16 @@ import os
 import logging
 
 load_dotenv()
-LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
-#logging.basicConfig(filename = 'filename.log', level=logging.<log_level>, format = '<message_structure>')
-logging.basicConfig(level=LOGLEVEL, format = f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
-logging.debug(f'LOGLEVEL: {LOGLEVEL}')
-logging.debug(f'Using secret key: {os.getenv("SECRET_KEY")}')
+LOGLEVEL = os.environ.get('LOGLEVEL', 'DEBUG').upper()
+logger = logging.getLogger(__name__)
+c_handler = logging.StreamHandler()
+c_handler.setLevel(LOGLEVEL)
+c_format = logging.Formatter('%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+c_handler.setFormatter(c_format)
+logger.addHandler(c_handler)
+
+logger.info(f'LOGLEVEL: {LOGLEVEL}')
+logger.debug(f'Using secret key: {os.getenv("SECRET_KEY")}')
 
 app = Flask(__name__)
 from app import routes
