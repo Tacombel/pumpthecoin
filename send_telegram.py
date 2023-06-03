@@ -14,7 +14,6 @@ logger.setLevel(LOGLEVEL)
 logger.info(f'LOGLEVEL: {LOGLEVEL}')
 
 def send_telegram_msg(message):
-    logging.debug(f'----------send_telegram_msg----------')
     bot_token = os.getenv('TELEGRAM_TOKEN')
     logging.debug(f'TELEGRAM_TOKEN: {bot_token}')
     chat_ID = os.getenv('CHAT_ID')
@@ -27,7 +26,6 @@ def send_telegram_msg(message):
     logging.debug(f'send_text: {send_text}')
     response = requests.get(send_text)
     logging.debug(f'response: {response}')
-    logging.debug(f'----------send_telegram_msg----------')
     return response.json()
 
 if __name__ == "__main__":
