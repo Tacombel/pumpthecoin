@@ -168,7 +168,7 @@ def get_sx_orders(book_url):
 def get_to_orders():
     price = btc_price()
     root_url = 'https://tradeogre.com/api/v1'
-    url = root_url + '/orders/BTC-SCP'
+    url = root_url + '/orders/SCP-BTC'
     while True:
         orders = requests.get(url)
         if orders.status_code == 200:
