@@ -9,6 +9,20 @@ from contest import get_balances, add_entry
 from send_telegram import send_telegram_msg
 import csv
 
+def max_candle():
+        with open('./contest/candles.csv') as csv_file:
+                csv_reader = csv.reader(csv_file, delimiter=',')
+                line_count=0
+                data = list(csv_reader)
+                if len(data) < 2 :
+                        return {"success":False, "error": "csv lenght < 2"}
+                candles = []
+                for row in data:
+                        if line_count == 0:
+                                line_count += 1
+                        else:
+                                candles.append(float(row[1]))
+                return {"success":True, "max_candle": max(candles)}
 
 @app.route('/uptimerobot', methods=['GET'])
 def uptimerobot():
@@ -195,6 +209,9 @@ def spfearnings():
 def contest():
         contest_data = {}
         contest_data["lines"] = get_balances()
+        candle = max_candle()
+        if candle["success"] == True:
+                contest_data["max_candle"] = candle["max_candle"]
         return render_template('index.html', contest_data = contest_data)
                 
 @app.route('/contest/add', methods=['POST'])
