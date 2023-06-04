@@ -164,7 +164,7 @@ def get_sx_orders(book_url):
         sellorders_list.append(['SX', type, order['Amount'], order['Price'], order['Price'] * price, order['Amount'] * order['Price'] * price])
     return [buyorders_list, sellorders_list]
 
-# https://tradeogre.com/api/v1/orders/BTC-SCP
+# https://tradeogre.com/api/v1/orders/SCP-BTC
 def get_to_orders():
     price = btc_price()
     root_url = 'https://tradeogre.com/api/v1'
