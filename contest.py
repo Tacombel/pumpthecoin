@@ -70,4 +70,5 @@ def get_balances():
     for e in cursor:
         lines.append(e)
         total_participating += e[2]
+    total_participating = int(total_participating)
     return {"lines":lines, "total_participating":total_participating}

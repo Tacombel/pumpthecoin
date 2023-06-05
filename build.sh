@@ -1,2 +1,2 @@
-docker build -t tacombel/pumpthecoin:v0.12.6c28 .
-docker push tacombel/pumpthecoin:v0.12.6c28
+docker build -t tacombel/pumpthecoin:v0.12.6c29 .
+docker push tacombel/pumpthecoin:v0.12.6c29
