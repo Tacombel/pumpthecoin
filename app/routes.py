@@ -221,11 +221,11 @@ def contest_add():
                 contest_data["error"] = 'You need a Discord user, a nickname and a hash!!!!'
         else:
                 entry = add_entry(request.form["discord_user"], request.form["Nickname"], request.form["hash"])
-                send_telegram_msg(f'{request.form["discord_user"]}, under the nickname {request.form["Nickname"]}, joined the competition')
                 if not entry["success"]:
                         contest_data["error"] = entry["error"]
                 else:
                         contest_data["message"] = entry["message"]
+                        send_telegram_msg(f'{request.form["discord_user"]}, under the nickname {request.form["Nickname"]}, joined the competition')
         contest_data["lines"] = get_balances()
         return render_template('index.html', contest_data = contest_data)
 
