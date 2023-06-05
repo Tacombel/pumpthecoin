@@ -1,4 +1,4 @@
-tacombel/pumpthecoin:v0.12.6c29
+tacombel/pumpthecoin:v0.12.6c30
 experimental version for bagbuilder contest
 
 -----------------------------------------------
