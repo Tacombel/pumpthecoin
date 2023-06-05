@@ -66,6 +66,8 @@ def get_balances():
     sql = 'SELECT users.nickname, users.hash, amount, comments from users INNER JOIN balance ON users.hash = balance.hash  ORDER BY amount DESC'
     cursor = conn.execute(sql)
     lines = []
+    total_participating = 0
     for e in cursor:
         lines.append(e)
-    return lines
+        total_participating += e[2]
+    return {"lines":lines, "total_participating":total_participating}

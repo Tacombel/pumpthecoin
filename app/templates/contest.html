@@ -1,6 +1,7 @@
 {%if contest_data%}
 <h1 class="py-2">BAGBUILDER Competition</h3>
-<div class="container py-5">
+<div class="p-5 h3">There are {{contest_data["total_participating"]}} SCP already bagged!!!</div>
+<div class="container py-2">
     <div class="pb-3 row">
         <h4>Wanna earn some SPF-A? Here you'll have a great opportunity  so, who do I have to kill?, how does this work? Let's see:</h3>
     </div>
@@ -33,6 +34,7 @@
           </div>
     </div>
     <div class="p-5"><a class="h5" href="http://discord.gg/scprime">Join our Discord to be updated</a></div>
+    
 </div>
 <h5 class="p-3">If you want to participate, introduce your data</h5>
 <form action="/contest/add" method="POST">

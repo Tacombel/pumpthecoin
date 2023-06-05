@@ -208,7 +208,9 @@ def spfearnings():
 @app.route('/contest', methods=['GET'])
 def contest():
         contest_data = {}
-        contest_data["lines"] = get_balances()
+        data = get_balances()
+        contest_data["lines"] = data["lines"]
+        contest_data["total_participating"] = data["total_participating"]
         candle = max_candle()
         if candle["success"] == True:
                 contest_data["max_candle"] = candle["max_candle"]
@@ -226,7 +228,9 @@ def contest_add():
                 else:
                         contest_data["message"] = entry["message"]
                         send_telegram_msg(f'{request.form["discord_user"]}, under the nickname {request.form["Nickname"]}, joined the competition')
-        contest_data["lines"] = get_balances()
+        data = get_balances()
+        contest_data["lines"] = data["lines"]
+        contest_data["total_participating"] = data["total_participating"]
         return render_template('index.html', contest_data = contest_data)
 
 @app.route('/contest/candle', methods=['POST'])
@@ -250,7 +254,9 @@ def contest_candle():
                         fieldnames = ['discord_user', 'amount', 'date']
                         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
                         writer.writerow({"discord_user": request.form["discord_user"], "amount": request.form["amount"], "date": request.form["date"]})
-        contest_data["lines"] = get_balances()
+        data = get_balances()
+        contest_data["lines"] = data["lines"]
+        contest_data["total_participating"] = data["total_participating"]
         return render_template('index.html', contest_data = contest_data)
 
 @app.route('/contest/rules', methods=['GET'])
