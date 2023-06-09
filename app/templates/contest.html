@@ -1,0 +1,131 @@
+{%if contest_data%}
+<h1 class="py-2">BAGBUILDER Competition</h3>
+<div class="p-5 h3">There are {{contest_data["total_participating"]}} SCP already bagged!!!</div>
+<div class="container py-2">
+    <div class="pb-3 row">
+        <h4>Wanna earn some SPF-A? Here you'll have a great opportunity  so, who do I have to kill?, how does this work? Let's see:</h3>
+    </div>
+    <div class="pb-3 row">
+        <h5>You have 1 month starting on May 15th at block 238650 to grab as much SCP as you can.  The 10 of you who buy more will get these cookies:</h4>
+    </div>
+    <div class="row">
+        <div class="col"><h5>1st:  40,000 SPF-A</h5></div>
+        <div class="col"><h5>6th:   4,000 SPF-A</h5></div>
+    </div>
+    <div class="row">
+        <div class="col"><h5>2nd:  20.000 SPF-A</h5></div>
+        <div class="col"><h5>7th:   2,000 SPF-A</h5></div>
+    </div>
+    <div class="row">
+        <div class="col"><h5>3rd:   10,000 SPF-A</h5></div>
+        <div class="col"><h5>8th:   1,750 SPF-A</h5></div>
+    </div>
+    <div class="row">
+        <div class="col"><h5>4th:   8,000 SPF-A</h5></div>
+        <div class="col"><h5>9th:   1,500 SPF-A</h5></div>
+    </div>
+    <div class="pb-3 row">
+        <div class="col"><h5>5th:   6,000 SPF-A</h5></div>
+        <div class="col"><h5>10th:  1,250 SPF-A</h5></div>
+    </div>
+    <div class="row">
+        <div class="d-grid gap-2">
+            <a class="btn btn-success" href="/contest/rules" role="button">Rules</a>
+          </div>
+    </div>
+    <div class="p-5"><a class="h5" href="http://discord.gg/scprime">Join our Discord to be updated</a></div>
+    
+</div>
+<h5 class="p-3">If you want to participate, introduce your data</h5>
+<form action="/contest/add" method="POST">
+    <div class="p-4 row g-3">
+        <div class="col-auto">
+            <label for="discord_user" class="col-form-label">Discord User</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="discord_user" class="form-control">
+        </div>
+        <div class="col-auto">
+            <label for="Nickname" class="col-form-label">Nickname</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="Nickname" class="form-control">
+        </div>
+        <div class="col-auto">
+            <label for="hash" class="col-form-label">Address hash</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="hash" class="form-control">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
+<hr style="width:100%;margin-left:0" class="text-center">
+<h5 class="p-3">If you are participating in the market buy challenge, report the time when you bought!</h5>
+<div class="row">
+    <div class="col-9 p-3">
+<form action="/contest/candle" method="POST">
+    <div class="row">
+        <div class="col-auto">
+            <label for="discord_user" class="col-form-label">Discord User</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="discord_user" class="form-control">
+        </div>
+        <div class="col-auto">
+            <label for="amount" class="col-form-label">Amount</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="amount" class="form-control">
+        </div>
+        <div class="col-auto">
+            <label for="date" class="col-form-label">Date and time</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="date" class="form-control">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
+</div>
+{%if contest_data["max_candle"]%}
+<div class="col-3"><h3>The current max market buy is {{contest_data["max_candle"]}}</h3></div>
+{%endif%}
+</div>
+<hr style="width:100%;margin-left:0" class="text-center">
+{%if contest_data["error"]%}
+<h5 class="p1">Error: {{contest_data["error"]}}</h5>
+<hr style="width:100%;margin-left:0" class="text-center">
+{%endif%}
+{%if contest_data["message"]%}
+<h5 class="p-1">{{contest_data["message"]}}</h5>
+<hr style="width:100%;margin-left:0" class="text-center">
+{%endif%}
+<h6 class="p-3">To avoid overloading the explorer, this table updates once an hour.</h6>
+<table class="p-5 table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nickname</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Address</th>
+            <th scope="col">Comments</th>
+        </tr>
+    </thead>
+    <tbody>    
+            {%for i in contest_data["lines"]%}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{i[0]}}</td>
+            <td class="text-end">{{i[2]}} SCP</td>
+            <td>{{i[1]}}</td>
+            <td>{{i[3]}}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+{%endif%}

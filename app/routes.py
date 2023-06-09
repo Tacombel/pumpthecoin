@@ -4,6 +4,25 @@ import pumpthecoin
 import spf_earnings
 import math
 from operator import itemgetter
+from time import time
+from contest import get_balances, add_entry
+from send_telegram import send_telegram_msg
+import csv
+
+def max_candle():
+        with open('./contest/candles.csv') as csv_file:
+                csv_reader = csv.reader(csv_file, delimiter=',')
+                line_count=0
+                data = list(csv_reader)
+                if len(data) < 2 :
+                        return {"success":False, "error": "csv lenght < 2"}
+                candles = []
+                for row in data:
+                        if line_count == 0:
+                                line_count += 1
+                        else:
+                                candles.append(float(row[1]))
+                return {"success":True, "max_candle": max(candles)}
 
 @app.route('/uptimerobot', methods=['GET'])
 def uptimerobot():
@@ -185,3 +204,61 @@ def spfearnings():
                 else:
                         dataStored = float(request.form['dataStored'])
                 return render_template('index.html', spf_data = spf_earnings.earnings(SPFamount, numberOfMonths, dataStored))
+        
+@app.route('/contest', methods=['GET'])
+def contest():
+        contest_data = {}
+        data = get_balances()
+        contest_data["lines"] = data["lines"]
+        contest_data["total_participating"] = data["total_participating"]
+        candle = max_candle()
+        if candle["success"] == True:
+                contest_data["max_candle"] = candle["max_candle"]
+        return render_template('index.html', contest_data = contest_data)
+                
+@app.route('/contest/add', methods=['POST'])
+def contest_add():
+        contest_data = {}
+        if request.form["Nickname"] == '' or request.form["hash"] == '' or request.form["discord_user"] == '':
+                contest_data["error"] = 'You need a Discord user, a nickname and a hash!!!!'
+        else:
+                entry = add_entry(request.form["discord_user"], request.form["Nickname"], request.form["hash"])
+                if not entry["success"]:
+                        contest_data["error"] = entry["error"]
+                else:
+                        contest_data["message"] = entry["message"]
+                        send_telegram_msg(f'{request.form["discord_user"]}, under the nickname {request.form["Nickname"]}, joined the competition')
+        data = get_balances()
+        contest_data["lines"] = data["lines"]
+        contest_data["total_participating"] = data["total_participating"]
+        return render_template('index.html', contest_data = contest_data)
+
+@app.route('/contest/candle', methods=['POST'])
+def contest_candle():
+        contest_data = {}
+        if request.form["discord_user"] == '' or request.form["amount"] == '' or request.form["date"] == '':
+                contest_data["error"] = 'You need a Discord user, amount and a date!!!!'
+        else:
+                msg = f'{request.form["discord_user"]} reported a candle of {request.form["amount"]} scp, the {request.form["date"]}'
+                send_telegram_msg(msg)
+                contest_data["message"] = str(f'{request.form["discord_user"]}, you reported succesfully')
+                try:
+                        with open('./contest/candles.csv', mode='r') as csv_file:
+                                pass
+                except FileNotFoundError:
+                         with open('./contest/candles.csv', mode='w') as csv_file:
+                                fieldnames = ['discord_user', 'amount', 'date']
+                                writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+                                writer.writeheader()
+                with open('./contest/candles.csv', mode='a') as csv_file:
+                        fieldnames = ['discord_user', 'amount', 'date']
+                        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+                        writer.writerow({"discord_user": request.form["discord_user"], "amount": request.form["amount"], "date": request.form["date"]})
+        data = get_balances()
+        contest_data["lines"] = data["lines"]
+        contest_data["total_participating"] = data["total_participating"]
+        return render_template('index.html', contest_data = contest_data)
+
+@app.route('/contest/rules', methods=['GET'])
+def contest_rules():
+        return render_template('rules.html')

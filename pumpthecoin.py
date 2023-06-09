@@ -4,10 +4,18 @@ from time import time, sleep
 import json
 import math
 import logging
+import os
 
-#logging.basicConfig(filename = 'filename.log', level=logging.<log_level>, format = '<message_structure>')
-logging.basicConfig(level=logging.DEBUG, format = f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+LOGLEVEL = os.environ.get('LOGLEVEL', 'DEBUG').upper()
+logger = logging.getLogger(__name__)
+c_handler = logging.StreamHandler()
+c_handler.setLevel(LOGLEVEL)
+c_format = logging.Formatter('%(asctime)s %(levelname)s %(name)s : %(message)s')
+c_handler.setFormatter(c_format)
+logger.addHandler(c_handler)
+logger.setLevel(LOGLEVEL)
 
+logger.info(f'LOGLEVEL: {LOGLEVEL}')
 
 coingecko_queue = [0, 0, 0, 0, 0]
 coingecko_timer = 60.0
@@ -27,10 +35,10 @@ def btc_price():
                 coingecko_queue.append(time())
                 break
             else:
-                logging.critical(f'Coingecko failed. Status code: {btc.status_code}. Retrying in 10 seconds')
+                logger.critical(f'Coingecko failed. Status code: {btc.status_code}. Retrying in 10 seconds')
                 sleep(10)
     else:
-        logging.debug(f'Using saved value')
+        logger.debug(f'Using saved value')
         btc = price_btc_cg
     return btc
 
@@ -49,10 +57,10 @@ def spc_price():
                 coingecko_queue.append(time())
                 break
             else:
-                logging.critical(f'Coingecko failed. Status code: {spc.status_code}. Retrying in 10 seconds')
+                logger.critical(f'Coingecko failed. Status code: {spc.status_code}. Retrying in 10 seconds')
                 sleep(10)
     else:
-        logging.debug(f'Using saved value')
+        logger.debug(f'Using saved value')
         spc = price_spc_cg
     return spc
 
@@ -71,10 +79,10 @@ def usdt_price():
                 coingecko_queue.append(time())
                 break
             else:
-                logging.critical(f'Coingecko failed. Status code: {usdt.status_code}. Retrying in 10 seconds')
+                logger.critical(f'Coingecko failed. Status code: {usdt.status_code}. Retrying in 10 seconds')
                 sleep(10)
     else:
-        logging.debug(f'Using saved value')
+        logger.debug(f'Using saved value')
         usdt = price_usdt_cg
     return usdt
 
@@ -93,10 +101,10 @@ def eth_price():
                 coingecko_queue.append(time())
                 break
             else:
-                logging.critical(f'Coingecko failed. Status code: {eth.status_code}. Retrying in 10 seconds')
+                logger.critical(f'Coingecko failed. Status code: {eth.status_code}. Retrying in 10 seconds')
                 sleep(10)
     else:
-        logging.debug(f'Using saved value')
+        logger.debug(f'Using saved value')
         eth = price_eth_cg
     return eth
 
@@ -112,7 +120,7 @@ def ltc_price():
         del coingecko_queue[0]
         coingecko_queue.append(time())
     else:
-        logging.debug(f'Using saved value')
+        logger.debug(f'Using saved value')
         ltc = price_ltc_cg
     return ltc
 
@@ -144,7 +152,7 @@ def get_sx_orders(book_url):
         if data.status_code == 200:
             break
         else:
-            logging.critical(f'Error. Retrying {book_url} in 10 seconds')
+            logger.critical(f'Error. Retrying {book_url} in 10 seconds')
             sleep(10)
     buyorders = data.json()['BuyOrders']
     buyorders_list = []
@@ -156,17 +164,17 @@ def get_sx_orders(book_url):
         sellorders_list.append(['SX', type, order['Amount'], order['Price'], order['Price'] * price, order['Amount'] * order['Price'] * price])
     return [buyorders_list, sellorders_list]
 
-# https://tradeogre.com/api/v1/orders/BTC-SCP
+# https://tradeogre.com/api/v1/orders/SCP-BTC
 def get_to_orders():
     price = btc_price()
     root_url = 'https://tradeogre.com/api/v1'
-    url = root_url + '/orders/BTC-SCP'
+    url = root_url + '/orders/SCP-BTC'
     while True:
         orders = requests.get(url)
         if orders.status_code == 200:
             break
         else:
-            logging.critical(f'Error. Retrying {url} in 10 seconds')
+            logger.critical(f'Error. Retrying {url} in 10 seconds')
             sleep(10)
     orders = json.loads(orders.text)
     buy_orders = orders["buy"]
