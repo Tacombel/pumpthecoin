@@ -16,15 +16,28 @@ logger.setLevel(LOGLEVEL)
 logger.info(f'LOGLEVEL: {LOGLEVEL}')
 
 def get_balances():
-    logger.debug(f'Updating balances')
-    conn = sqlite3.connect("./contest/app.db")
-    cursor = conn.execute("SELECT nickname, hash from users")
-    for e in cursor:
-        data = get_data(e[1])
-        if data["success"]:
-            conn.execute("REPLACE INTO balance(nickname, hash, amount) values (?,?,?)", (e[0], e[1], '{:.3f}'.format(data["totalScp"] / 1e27)))
-            conn.commit()
-    conn.close()
+    # Loading ban list
+    try:
+        with open('./contest/ban_list.txt', mode='r') as file:
+            banned = file.readlines()
+        logger.debug(f'Updating balances')
+        conn = sqlite3.connect("./contest/app.db")
+        cursor = conn.execute("SELECT nickname, hash from users")
+        for e in cursor:
+            if e[1] in banned:
+                logger.info(f'Setting banned contestant {e[0]} to 0 scp')
+                conn.execute("REPLACE INTO balance(nickname, hash, amount) values (?,?,?)", (e[0], e[1], 0))
+                conn.commit()
+            else:
+                data = get_data(e[1])
+                if data["success"]:
+                    conn.execute("REPLACE INTO balance(nickname, hash, amount) values (?,?,?)", (e[0], e[1], '{:.3f}'.format(data["totalScp"] / 1e27)))
+                    conn.commit()
+        conn.close()
+    except FileNotFoundError:
+        logger.info('There is no ban_list.txt')
+    
+
 
 def write_csv():
     conn = sqlite3.connect("./contest/app.db")
