@@ -1,13 +1,16 @@
-import requests
+""" Aqui debería poner unas docstrings"""
+
 import json
 from time import time
+import requests
 
-cache_timer = 60
+CACHE_TIMER = 60
 price_btc = [0, 0]
 def btc_price():
+    """Get BTC price from coingecko"""
     global price_btc
-    if time() > price_btc[1] + cache_timer or price_btc[1] == 0:
-        btc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
+    if time() > price_btc[1] + CACHE_TIMER or price_btc[1] == 0:
+        btc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', timeout=3000)
         btc = btc.json()
         btc = float(btc['bitcoin']['usd'])
         price_btc = [btc, time()]
@@ -17,10 +20,11 @@ def btc_price():
 
 # https://tradeogre.com/api/v1/orders/BTC-SCP
 def get_order_book():
+    """Get orders from TO"""
     price = btc_price()
     root_url = 'https://tradeogre.com/api/v1'
     url = root_url + '/orders/BTC-SCP'
-    orders = requests.get(url)
+    orders = requests.get(url, timeout=3000)
     orders = json.loads(orders.text)
     buy_orders = orders["buy"]
     buy_orders_list = []
@@ -33,6 +37,7 @@ def get_order_book():
     return buy_orders_list, sell_orders_list
 
 def list_orders():
+    """Used when running the script from CLI"""
     def output(e):
         print(f'Market: {e[0]} - Book: {e[1]} - Amount: {e[2]} - Price: {e[3]} - Price($): {e[4]} - Value: {e[5]}')
     buy_orders_list, sell_orders_list = get_order_book()
