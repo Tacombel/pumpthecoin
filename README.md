@@ -1,4 +1,4 @@
-tacombel/pumpthecoin:v0.12.6c31
+tacombel/pumpthecoin:v0.12.6c32-a
 experimental version for bagbuilder contest
 
 Crear el entorno virtual CTRL-SHIFT-P Python:crear ambiente
