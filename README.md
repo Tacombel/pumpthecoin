@@ -1,6 +1,18 @@
 tacombel/pumpthecoin:v0.12.6c31
 experimental version for bagbuilder contest
 
+Crear el entorno virtual CTRL-SHIFT-P Python:crear ambiente
+
+Descargar el proyeto C-S-P Git_clonar
+
+Instalar modulos pip install -r requirements.txt
+
+Instalar gunicorn pip install gunicorn
+
+La db la crea gunicorn, así que hay que lanzarlo antes de nada ./gunicorn_test.sh
+
+Cerramos gunicorn y lanzamos flask run para estar en el entorno debug de falsk
+
 -----------------------------------------------
 
 Donations welcome:
