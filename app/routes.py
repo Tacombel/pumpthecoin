@@ -10,19 +10,22 @@ from send_telegram import send_telegram_msg
 import csv
 
 def max_candle():
-        with open('./contest/candles.csv') as csv_file:
-                csv_reader = csv.reader(csv_file, delimiter=',')
-                line_count=0
-                data = list(csv_reader)
-                if len(data) < 2 :
-                        return {"success":False, "error": "csv lenght < 2"}
-                candles = []
-                for row in data:
-                        if line_count == 0:
-                                line_count += 1
-                        else:
-                                candles.append(float(row[1]))
-                return {"success":True, "max_candle": max(candles)}
+        try:
+                with open('./contest/candles.csv') as csv_file:
+                        csv_reader = csv.reader(csv_file, delimiter=',')
+                        line_count=0
+                        data = list(csv_reader)
+                        if len(data) < 2 :
+                                return {"success":False, "error": "csv lenght < 2"}
+                        candles = []
+                        for row in data:
+                                if line_count == 0:
+                                        line_count += 1
+                                else:
+                                        candles.append(float(row[1]))
+                        return {"success":True, "max_candle": max(candles)}
+        except FileNotFoundError:
+                return {"success":False}
 
 @app.route('/uptimerobot', methods=['GET'])
 def uptimerobot():
