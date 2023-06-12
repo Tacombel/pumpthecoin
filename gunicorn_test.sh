@@ -1,1 +1,1 @@
-gunicorn --config gunicorn.conf.py pumpthecoin-flask:app
+gunicorn --bind=0.0.0.0:5000 --config gunicorn.conf.py pumpthecoin-flask:app
