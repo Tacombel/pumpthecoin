@@ -23,5 +23,4 @@ ENV PYTHONUNBUFFERED 1
 
 USER microservicios
 
-EXPOSE 5000
 ENTRYPOINT ["./boot.sh"]
