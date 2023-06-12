@@ -1,13 +1,14 @@
-tacombel/pumpthecoin:v0.12.6c32-a
-experimental version for bagbuilder contest
+tacombel/pumpthecoin:v0.12.6c33-a
 
-Crear el entorno virtual CTRL-SHIFT-P Python:crear ambiente
+Instalacion en un nuevo ordenador con VS Code
 
-Descargar el proyeto C-S-P Git_clonar
+Crear el entorno virtual: CTRL-SHIFT-P Python:crear ambiente
 
-Instalar modulos pip install -r requirements.txt
+Descargar el proyecto: CTRL-SHIFT-P Git_clonar
 
-Instalar gunicorn pip install gunicorn
+Instalar modulos: pip install -r requirements.txt
+
+Instalar gunicorn: pip install gunicorn
 
 La db la crea gunicorn, así que hay que lanzarlo antes de nada ./gunicorn_test.sh
 
