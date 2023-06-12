@@ -4,9 +4,7 @@ RUN apt update
 RUN apt install -y nano
 
 RUN useradd microservicios
-RUN mkdir /home/microservicios
-RUN mkdir /home/microservicios/pumpthecoin
-RUN mkdir /home/microservicios/pumpthecoin/contest
+RUN mkdir -p /home/microservicios/pumpthecoin/contest
 WORKDIR /home/microservicios/pumpthecoin
 
 COPY requirements.txt requirements.txt
