@@ -23,7 +23,7 @@ def get_order_book():
     """Get orders from TO"""
     price = btc_price()
     root_url = 'https://tradeogre.com/api/v1'
-    url = root_url + '/orders/BTC-SCP'
+    url = root_url + '/orders/SCP-BTC'
     orders = requests.get(url, timeout=3000)
     orders = json.loads(orders.text)
     buy_orders = orders["buy"]
