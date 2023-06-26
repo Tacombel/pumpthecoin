@@ -17,6 +17,7 @@ logger.setLevel(LOGLEVEL)
 logger.info(f'LOGLEVEL: {LOGLEVEL}')
 
 start_height = 238650
+end_height = 244701
 def get_data(hash):
     url = 'https://explorer.scpri.me/navigator-api/hash/' + hash
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -34,7 +35,7 @@ def get_data(hash):
         else:
             totalScp = 0
             for e in data[1]["last100Transactions"]:
-                if e["Height"] > start_height:
+                if e["Height"] > start_height and e["Height"] >= end_height:
                     totalScp += e["ScChange"]
             return {'success':True, 'totalScp':totalScp}
     except URLError as e:
