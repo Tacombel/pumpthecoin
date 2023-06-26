@@ -35,7 +35,7 @@ def get_data(hash):
         else:
             totalScp = 0
             for e in data[1]["last100Transactions"]:
-                if e["Height"] > start_height and e["Height"] >= end_height:
+                if e["Height"] > start_height and e["Height"] <= end_height:
                     totalScp += e["ScChange"]
             return {'success':True, 'totalScp':totalScp}
     except URLError as e:
