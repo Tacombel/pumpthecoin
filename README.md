@@ -1,4 +1,4 @@
-tacombel/pumpthecoin:v0.12.6c38-a
+tacombel/pumpthecoin:v0.12.6c39-a
 
 Instalacion en un nuevo ordenador con VS Code
 
