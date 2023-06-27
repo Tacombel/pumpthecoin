@@ -13,6 +13,8 @@ limit_request_line = 8190
 keepalive = 60
 
 LOGLEVEL = os.environ.get('LOGLEVEL', 'DEBUG').upper()
+UPDATE_DATA_PERIOD = int(os.environ.get('UPDATE_DATA_PERIOD', 60))
+
 logger = logging.getLogger(__name__)
 c_handler = logging.StreamHandler()
 c_handler.setLevel(LOGLEVEL)
@@ -82,5 +84,6 @@ def on_starting(server):
     global sched
     sched = BackgroundScheduler(timezone="UTC", daemon=True)
     #sched.add_job(update, id="update", coalesce=True, max_instances=1, trigger='interval', minutes=60)
-    sched.add_job(update, id="update", max_instances=1, trigger='interval', minutes=60)
+    sched.add_job(update, id="update", max_instances=1, trigger='interval', minutes=UPDATE_DATA_PERIOD)
     sched.start()
+    logger.debug(f'Update period {UPDATE_DATA_PERIOD} minutes')
